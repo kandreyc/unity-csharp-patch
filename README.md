@@ -20,10 +20,12 @@ How it works:
 
 How to Install:
 ---------------
-> [!WARNING]  
+> [!NOTE]  
 > Backup your editor to not redownload it again if something will not work on your operation system or with your unity editor version.
 >
-> Also note that patch will modify the Editor installation, so all the projects that using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
+> Not all language features will be available. the provided list of them is here [UnityRoslynUpdater](https://github.com/DaZombieKiller/UnityRoslynUpdater)
+> 
+> Patch will modify the Editor installation, so all the projects that using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
 
 1. Add the package via git url ``url``
 2. Ensure Unity Editor is closed
