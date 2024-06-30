@@ -1,0 +1,18 @@
+{
+  "name": "FeatureA",
+  "rootNamespace": "",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "unityCSharpPatch": {
+    "langVersion": "12",
+    "nullable": "enable"
+  }
+}
