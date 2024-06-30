@@ -7,7 +7,7 @@ This repository is based on this awesome repos, which was the main motivation fo
 2. [UnityRoslynUpdater](https://github.com/DaZombieKiller/UnityRoslynUpdater)
 
 So the problem of [UnityRoslynUpdater](https://github.com/DaZombieKiller/UnityRoslynUpdater) is that it increases C# version for everything. So all the code in your project will be compiled with newer C# version.
-This is fine for a small hobby project, but for medium to big production projects, where a lot of libraries / packages / sdks are used, it can become a problem, because there can be variables / fields with names that has been reserved in a newer C# versions etc.
+This is fine for a small hobby project, but for medium to big production projects, where a lot of libraries / packages / sdks are used, it can become a problem, because they may use naming that has been reserved in a newer C# versions etc.
 
 I've adjusted / extended it with [CsprojModifier](https://github.com/Cysharp/CsprojModifier)'s help to support custom C# version per ``.asmdef/.csproj`` file. So only your code will have increased C# version.
 
