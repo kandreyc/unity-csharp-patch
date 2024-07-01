@@ -32,9 +32,9 @@ How to Install:
 3. Ensure latest stable dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
 4. Patch the editor. The patch app is located inside the package at ``path/to/patch_app``
 ```
-$ ./UnityEditorPatch apply --sdk '/usr/local/share/dotnet' --editor '/Applications/Unity/Hub/Editor/2022.3.21f1'
+$ ./UnityEditorPatch apply --editor '/Applications/Unity/Hub/Editor/2022.3.21f1'
 ```
-where ``--sdk`` - path to the dotnet, ``--editor`` - path to the unity editor
+where ``--editor`` - path to the unity editor
 
 In case if you want to revert the patch:
 ```
