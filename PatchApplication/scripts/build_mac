@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dotnet publish -c Release -r osx-arm64 -p:PublishSingleFile=true --no-self-contained -o build/
+mv build/PatchApplication build/UnityEditorPatch_mac
+rm -rf bin/Release

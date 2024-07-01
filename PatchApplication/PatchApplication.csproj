@@ -4,13 +4,15 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DebugType>None</DebugType>
+        <DebugSymbols>false</DebugSymbols>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AsmResolver.DotNet" Version="5.5.1" />
-      <PackageReference Include="CommandLineParser" Version="2.9.1" />
-      <PackageReference Include="NuGet.Versioning" Version="6.10.1" />
+        <PackageReference Include="AsmResolver.DotNet" Version="5.5.1"/>
+        <PackageReference Include="CommandLineParser" Version="2.9.1"/>
+        <PackageReference Include="NuGet.Versioning" Version="6.10.1"/>
     </ItemGroup>
 
 </Project>
