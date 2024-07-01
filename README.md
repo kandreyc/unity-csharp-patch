@@ -38,7 +38,7 @@ where ``--editor`` - path to the unity editor
 
 In case if you want to revert the patch:
 ```
-$ ./UnityRoslynUpdater revert --editor '/Applications/Unity/Hub/Editor/2022.3.21f1'
+$ ./UnityEditorPatch revert --editor '/Applications/Unity/Hub/Editor/2022.3.21f1'
 ```
 where ``--editor`` - path to the unity editor
 
