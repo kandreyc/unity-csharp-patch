@@ -5,13 +5,9 @@ namespace PatchApplication.Interactors;
 
 public static class PatchApplier
 {
-    public static Result Perform(string sdkPath, string editorPath)
+    public static Result Perform(string editorPath)
     {
-        Console.WriteLine($"Given dotnet sdk path: {sdkPath}");
-        Console.WriteLine($"Given unity editor path: {editorPath}");
-        Console.WriteLine();
-
-        if (!SDKInfoProvider.TryGet(sdkPath, out var sdkInfo))
+        if (!SDKInfoProvider.TryGet(out var sdkInfo))
         {
             return Result.Error("Failed to select dotnet sdk.");
         }

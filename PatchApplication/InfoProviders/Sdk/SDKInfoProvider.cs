@@ -1,16 +1,21 @@
-using System.Runtime.Loader;
 using NuGet.Versioning;
+using System.Runtime.Loader;
+using PatchApplication.Utilities;
+using System.Text.RegularExpressions;
 
 namespace PatchApplication.InfoProviders.Sdk;
 
-public static class SDKInfoProvider
+public static partial class SDKInfoProvider
 {
-    public static bool TryGet(string sdkPath, out SDKInfo info)
+    [GeneratedRegex(@"(\d+\.\d+\.\d+)[\s]\[(.+)\]", RegexOptions.Multiline)]
+    private static partial Regex SDKInfoRegex();
+
+    public static bool TryGet(out SDKInfo info)
     {
         // this version is used by unity
         var minVersion = SemanticVersion.Parse("6.0.21");
 
-        if (!TryGetSdks(sdkPath, out var sdks))
+        if (!TryGetSdks(out var sdks))
         {
             info = default!;
             return false;
@@ -19,14 +24,14 @@ public static class SDKInfoProvider
         Console.WriteLine("dotnet sdks:");
         foreach (var sdkInfo in sdks)
         {
-            Console.WriteLine($"- {sdkInfo.Version} (C# {sdkInfo.LatestCSharpVersion})");
+            Console.WriteLine($"- {sdkInfo.Version} (C# {sdkInfo.LatestCSharpVersion}) at {sdkInfo.SDKLocation}");
         }
 
         var selectedSDK = sdks.LastOrDefault(sdk => sdk.Version > minVersion);
 
         if (selectedSDK is not null)
         {
-            Console.WriteLine($"Selected Sdk: {selectedSDK.Version} (C# {selectedSDK.LatestCSharpVersion})");
+            Console.WriteLine($"Selected Sdk: {selectedSDK.Version} (C# {selectedSDK.LatestCSharpVersion}) at {selectedSDK.SDKLocation}");
             Console.WriteLine();
             info = selectedSDK;
             return true;
@@ -36,35 +41,32 @@ public static class SDKInfoProvider
         return false;
     }
 
-    private static bool TryGetSdks(string lookupPath, out IReadOnlyCollection<SDKInfo> sdks)
+    private static bool TryGetSdks(out IReadOnlyCollection<SDKInfo> sdks)
     {
-        var sdksPath = Path.Combine(lookupPath, "sdk");
-
-        if (!Directory.Exists(lookupPath) || !Directory.Exists(sdksPath))
-        {
-            sdks = default!;
-            return false;
-        }
-
-        sdks = GetSdks(lookupPath, sdksPath).OrderBy(sdk => sdk.Version.ToString()).ToArray();
+        sdks = GetSdks().OrderBy(sdk => sdk.Version.ToString()).ToArray();
         return sdks.Count > 0;
     }
 
-    private static IEnumerable<SDKInfo> GetSdks(string dotnetPath, string sdksPath)
+    private static IEnumerable<SDKInfo> GetSdks()
     {
-        foreach (var sdk in Directory.EnumerateDirectories(sdksPath))
+        var listSdks = ProcessUtility.ReadOutputFrom(command: "dotnet", withArgument: "--list-sdks");
+
+        foreach (Match match in SDKInfoRegex().Matches(listSdks))
         {
-            if (!SemanticVersion.TryParse(Path.GetFileName(sdk), out var version)) continue;
+            var path = match.Groups[2].Value;
+            var version = match.Groups[1].Value;
+            var sdkLocation = Path.Combine(path, version);
+            var dotnetLocation = Path.GetDirectoryName(path);
+            var roslynLocation = Path.Combine(sdkLocation, "Roslyn", "bincore");
 
-            var roslynLocation = Path.Combine(sdk, "Roslyn", "bincore");
-
-            if (!Directory.Exists(roslynLocation)) continue;
+            if (!SemanticVersion.TryParse(version, out var semanticVersion)) continue;
+            if (!Directory.Exists(path) || !Directory.Exists(sdkLocation) || !Directory.Exists(dotnetLocation)) continue;
 
             yield return new SDKInfo
             {
-                SDKLocation = sdk,
-                Version = version,
-                Location = dotnetPath,
+                SDKLocation = sdkLocation,
+                Location = dotnetLocation,
+                Version = semanticVersion,
                 RoslynLocation = roslynLocation,
                 LatestCSharpVersion = GetLatestCSharpVersion(roslynLocation)
             };

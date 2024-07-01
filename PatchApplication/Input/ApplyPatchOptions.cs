@@ -7,9 +7,6 @@ namespace PatchApplication.Input;
 [Verb("apply", HelpText = "Apply patch.")]
 public class ApplyPatchOptions
 {
-    [Option("sdk", Required = true, HelpText = "Path to dotnet sdk.")]
-    public string DotNetSdkPath { get; set; }
-
     [Option("editor", Required = true, HelpText = "Path to the Unity Editor.")]
     public string EditorPath { get; set; }
 }
