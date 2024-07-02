@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dotnet publish PatchApplication.csproj -c ReleaseLinux -r linux-x64 -p:PublishSingleFile=true --no-self-contained -o build/linux
+mv build/linux/PatchApplication build/linux/UnityEditorPatch
+rm -rf bin/Release

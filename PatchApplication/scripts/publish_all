@@ -1,0 +1,8 @@
+#!/bin/bash
+
+CURRENT_DIRECTORY=$(dirname "$0")
+
+./"$CURRENT_DIRECTORY"/publish_mac_arm
+./"$CURRENT_DIRECTORY"/publish_linux
+./"$CURRENT_DIRECTORY"/publish_windows
+./"$CURRENT_DIRECTORY"/publish_windows_arm

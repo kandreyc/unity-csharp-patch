@@ -7,6 +7,24 @@
         <DebugType>None</DebugType>
         <DebugSymbols>false</DebugSymbols>
         <Nullable>enable</Nullable>
+        <Configurations>ReleaseWindows;ReleaseLinux;ReleaseMacOS;DebugMacOS</Configurations>
+        <Platforms>osx-arm64;win-x64;win-arm64;linux-x64;AnyCPU</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'DebugMacOS' ">
+        <DefineConstants>MACOS</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseMacOS' ">
+        <DefineConstants>MACOS</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseLinux' ">
+        <DefineConstants>LINUX</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseWindows' ">
+        <DefineConstants>WINDOWS</DefineConstants>
     </PropertyGroup>
 
     <ItemGroup>

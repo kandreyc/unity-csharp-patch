@@ -4,13 +4,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatchApplication", "PatchAp
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		ReleaseWindows|win-x64 = ReleaseWindows|win-x64
+		ReleaseWindows|win-arm64 = ReleaseWindows|win-arm64
+		ReleaseMacOS|osx-arm64 = ReleaseMacOS|osx-arm64
+		ReleaseLinux|linux-x64 = ReleaseLinux|linux-x64
+		DebugMacOS|Any CPU = DebugMacOS|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.ReleaseWindows|win-x64.ActiveCfg = ReleaseWindows|win-x64
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.ReleaseWindows|win-x64.Build.0 = ReleaseWindows|win-x64
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.ReleaseWindows|win-arm64.ActiveCfg = ReleaseWindows|win-arm64
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.ReleaseWindows|win-arm64.Build.0 = ReleaseWindows|win-arm64
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.ReleaseMacOS|osx-arm64.ActiveCfg = ReleaseMacOS|osx-arm64
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.ReleaseMacOS|osx-arm64.Build.0 = ReleaseMacOS|osx-arm64
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.ReleaseLinux|linux-x64.ActiveCfg = ReleaseLinux|linux-x64
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.ReleaseLinux|linux-x64.Build.0 = ReleaseLinux|linux-x64
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.DebugMacOS|Any CPU.ActiveCfg = DebugMacOS|Any CPU
+		{5F679E1F-99F8-4829-B2FF-3E7372009D4D}.DebugMacOS|Any CPU.Build.0 = DebugMacOS|Any CPU
 	EndGlobalSection
 EndGlobal
