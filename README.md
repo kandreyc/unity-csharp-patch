@@ -2,6 +2,9 @@ Unity C# Patch
 ================
 The main purpose of this package is to allow using newer C# version per ``.asmdef``.
 
+> [!NOTE]
+> The work is still in progress, solution works, i just need to add support for all platforms (currently only mac is working) and adjust the description
+
 This repository is based on this awesome repos, which was the main motivation for my project (this package itslef has no dependencies):
 1. [CsprojModifier](https://github.com/Cysharp/CsprojModifier)
 2. [UnityRoslynUpdater](https://github.com/DaZombieKiller/UnityRoslynUpdater)
