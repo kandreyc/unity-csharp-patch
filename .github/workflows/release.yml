@@ -1,16 +1,21 @@
-name: Build ApplicationPatch
+name: release
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-node@v4
+    - uses: git-actions/set-user@v1
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -18,10 +23,64 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Build
-      run: ./scripts/publish_all
+      working-directory: ./UnityEditorPatch
+      run: |
+        buildFolder="build/"
+        targetFolder="./build/EditorPatch~"
+
+        dotnet publish UnityEditorPatch.csproj -c Release --no-self-contained -o $buildFolder
+
+        mkdir $targetFolder
+        mv ./build/UnityEditorPatch.dll $targetFolder
+        mv ./build/UnityEditorPatch.runtimeconfig.json $targetFolder
+
+    - name: Assemble Package
+      run: |
+        mkdir package
+        mv ./UnityEditorPatch/build/EditorPatch~ ./package
+        mv ./UnityCSharpPatch/Packages/com.kandreyc.unity-csharp-patch/** ./package
 
     - name: Publish Artifacts
       uses: actions/upload-artifact@v4
       with:
-        path: ./build/*
+        name: release
+        path: ./package/**
         retention-days: 1
+
+    - uses: ./.github/workflows/actions/checkout-orphan
+      name: Checkout 'release'
+      with:
+        branch: release
+        clean: true
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: release
+
+    - name: Publish Release
+      run: |
+        function TagExists() {
+          git rev-parse $1 >/dev/null 2>&1
+        }
+
+        name=$(npm pkg get name --workspaces=false | tr -d \")
+        version=$(npm pkg get version --workspaces=false | tr -d \")
+
+        if [ "$version" == "0.0.0" ]
+        then
+          version="1.0.0"
+          npm pkg set version=$version
+        fi
+
+        if TagExists "v$version"
+        then
+            npm version minor --no-git-tag-version
+            version=$(npm pkg get version --workspaces=false | tr -d \")
+        fi
+
+        git add *
+        git commit -m "$name@$version"
+        git tag "v$version"
+
+        git push origin release
+        git push origin "v$version"
