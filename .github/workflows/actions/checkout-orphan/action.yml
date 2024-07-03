@@ -1,0 +1,36 @@
+name: 'checkout-orphan'
+
+inputs:
+  clean:
+    required: true
+  branch:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout '${{ inputs.branch }}'
+      run: |
+        function BranchExists() {
+          git ls-remote --heads origin $1 | grep $1
+        }
+
+        if BranchExists "${{ inputs.branch }}"
+        then
+          git checkout ${{ inputs.branch }}
+        else
+          git checkout --orphan ${{ inputs.branch }}
+
+          if ${{ inputs.clean }} == 'true'
+          then
+            git clean -fdx
+            git reset --hard
+          fi
+        fi
+      shell: bash
+      
+    - name: Clean
+      if: ${{ inputs.clean == 'true' }}
+      run: |
+        rm -rf *
+      shell: bash
