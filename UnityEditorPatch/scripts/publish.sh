@@ -1,0 +1,1 @@
+dotnet publish UnityEditorPatch.csproj -c Release --no-self-contained -o build/

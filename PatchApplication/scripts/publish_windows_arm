@@ -1,5 +1,0 @@
-#!/bin/bash
-
-dotnet publish PatchApplication.csproj -c ReleaseWindows -r win-arm64 -p:PublishSingleFile=true --no-self-contained -o build/windows_arm
-mv build/windows_arm/PatchApplication.exe build/windows_arm/UnityEditorPatch.exe
-rm -rf bin/Release
