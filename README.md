@@ -1,5 +1,7 @@
 Unity C# Patch
 ================
+[![release](https://github.com/kandreyc/unity-csharp-patch/actions/workflows/release.yml/badge.svg)](https://github.com/kandreyc/unity-csharp-patch/actions/workflows/release.yml)
+
 The main purpose of this package is to allow using newer C# version per ``.asmdef``.
 
 > [!NOTE]
