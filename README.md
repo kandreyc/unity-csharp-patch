@@ -7,10 +7,13 @@ This package allows to set custom C# version per ``.asmdef``.
 
 How it works:
 -------------
-1. **UnityEditorPatch** replaces the dotnet sdk inside editor with a newer one (Unity itself already uses dotnet but with version ``6.0.21``).
-2. **UnityPackage** tracks if ``.asmdef`` has specified information about C# launguage version (specified manually inside ``.asmdef``)
-3. **UnityPackage** adds ``csc.rsp`` file with specified C# version. So that Unity knows how to compile the code of your ``.asmdef``
-4. **UnityPackage** adjusts the ``.csproj`` with specified C# version. So that your IDE knows the C# version and unlocks all the features related to it.
+1. **Editor Patching**: The `UnityEditorPatch` is responsible for updating the built-in dotnet SDK within the Unity editor. Unity, by default, ships with dotnet version `6.0.21`.
+
+2. **Language Version Tracking**: `UnityPackage` keeps track of the C# language version specified in your `.asmdef` files. You're expected to manually specify the version in each `.asmdef` file.
+
+3. **Compiler Response File Configuration**: To help Unity understand which C# version it should use while compiling your code, `UnityPackage` creates a `csc.rsp` file containing the C# version you've chosen in your `.asmdef`.
+
+4. **Project File Adjustment**: Finally, `UnityPackage` modifies the `.csproj` file to reflect the C# version identified in the `.asmdef`. This alerts your IDE to the correct language version to use, ensuring it can provide you with all the relevant language features.
 
 How to Install:
 ---------------
@@ -100,12 +103,11 @@ C# | Feature | Support
 
 Motivation
 ==========
-This repository is based on this awesome repos, which was the main motivation for my project:
+This project was inspired and motivated by two key repositories:
 1. [CsprojModifier](https://github.com/Cysharp/CsprojModifier)
 2. [UnityRoslynUpdater](https://github.com/DaZombieKiller/UnityRoslynUpdater)
 
-So the problem of [UnityRoslynUpdater](https://github.com/DaZombieKiller/UnityRoslynUpdater) is that it increases C# version for everything. So all the code in your project will be compiled with newer C# version.
-This is fine for a small hobby project, but for medium to big production projects, where a lot of libraries / packages / sdks are used, it can become a problem, because they may use naming that has been reserved in a newer C# versions etc.
+While the **UnityRoslynUpdater** serves its purpose by upgrading the C# version across all projects, my goal was to allow using custom C# version only where it is required.
+So that my package gives the control of what assemblies should be allowed to use newer C# version, which helps to prevent naming conflicts with embedded/thirdparty libs/sdks, or affect the projects that you don't want to 
 
-I've adjusted / extended it with [CsprojModifier](https://github.com/Cysharp/CsprojModifier)'s help to support custom C# version per ``.asmdef/.csproj`` file. So only your code will have increased C# version.
-
+Inspired by **CsprojModifier**, I've automated modifying ``.csproj`` files based on ``.asmdef`` properties, making it possible for your IDE to use the newest C# features.
