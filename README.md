@@ -3,7 +3,7 @@ Unity C# Patch
 [![release](https://github.com/kandreyc/unity-csharp-patch/actions/workflows/release.yml/badge.svg)](https://github.com/kandreyc/unity-csharp-patch/actions/workflows/release.yml)
 ![Static Badge](https://img.shields.io/badge/Unity-2022%2B-black.svg?style=flat&logo=unity&color=%231f1f1f)
 
-Unleash the full potential by being in sync with the latest C# versions that are configured individually for each .asmdef.
+Unleash the full potential by being in sync with the latest C# versions that are configured individually for each ``.asmdef``.
 
 How it works:
 -------------
