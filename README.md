@@ -18,7 +18,8 @@ How it works:
 How to Install:
 ---------------
 > [!NOTE]  
-> Backup your editor to not redownload it again if something will not work on your operation system or with your unity editor version.
+> OS support: Mac/Linux/Windows.
+> You can backup your editor just in case, but should be fine.
 >
 > Patch will modify the Editor installation, so all the projects that are using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
 
