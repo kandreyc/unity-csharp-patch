@@ -39,7 +39,7 @@ $ dotnet UnityEditorPatch.dll revert --editor '/Applications/Unity/Hub/Editor/20
 ```
 where ``--editor`` - path to the unity editor
 
-4. Open the Unity Editor with your project and add this lines to the end of your ``.asmdef`` file:
+6. Open the Unity Editor with your project and add this lines to the end of your ``.asmdef`` file:
 ```
   "unityCSharpPatch": {
     "langVersion": "12",
@@ -51,8 +51,8 @@ where:
 - ``langVersion`` (optional) - C# version you want to be used for this ``.asmdef``. Values are ``10``, ``11``, ``12``
 - ``nullable`` (optional) - allows to use nullables like ``string?`` without defining ``#nullable enable/disable`` in each file where it used. Values are ``enable``, ``disable``
 
-5. Refresh the Editor. All required magic should be done here.
-6. Enjoy!
+7. Refresh the Editor. All required magic should be done here.
+8. Enjoy!
 
 Language Support
 ----------------
