@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using UnityCSharpPatch.Editor.Asmdef;
 
 namespace UnityCSharpPatch.Editor
 {
@@ -9,9 +10,9 @@ namespace UnityCSharpPatch.Editor
 
         public static void ProcessImportedAsmdef(string pathToAsmdef)
         {
-            var info = AsmdefUtility.GetAsmdefInfo(pathToAsmdef);
+            if (!AsmdefUtility.TryGetAsmdefPatchInfo(pathToAsmdef, out var info)) return;
 
-            if (info.IsModified && !PatchInfo.IsEditorPatched())
+            if (!PatchInfo.IsEditorPatched())
             {
                 Debug.LogError("[UnityCSharpPatch] Editor is not patched to support custom C# version.");
                 return;
@@ -36,7 +37,7 @@ namespace UnityCSharpPatch.Editor
                 return;
             }
 
-            var cscFile = Path.Combine(Path.GetDirectoryName(pathToAsmdef)!, CscFileName);
+            var cscFile = Path.Combine(Path.GetDirectoryName(info.Location.Absolute)!, CscFileName);
 
             File.WriteAllText(cscFile, content);
         }

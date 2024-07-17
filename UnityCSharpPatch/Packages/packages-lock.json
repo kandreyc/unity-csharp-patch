@@ -6,6 +6,18 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.test.local-inner-package": {
+      "version": "file:com.test.local-inner-package",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.test.local-outer-package": {
+      "version": "file:../AnotherPackages/com.test.local-outer-package",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.editorcoroutines": {
       "version": "1.0.0",
       "depth": 1,

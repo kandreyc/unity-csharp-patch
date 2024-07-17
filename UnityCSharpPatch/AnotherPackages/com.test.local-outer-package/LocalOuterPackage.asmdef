@@ -1,0 +1,7 @@
+{
+	"name": "LocalOuterPackage",
+	"unityCSharpPatch": {
+		"langVersion": "12",
+		"nullable": "enable"
+	}
+}

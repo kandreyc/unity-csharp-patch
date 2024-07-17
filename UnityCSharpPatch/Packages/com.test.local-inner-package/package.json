@@ -1,0 +1,7 @@
+{
+  "displayName": "Local Inner Package",
+  "name": "com.test.local-inner-package",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": ""
+}

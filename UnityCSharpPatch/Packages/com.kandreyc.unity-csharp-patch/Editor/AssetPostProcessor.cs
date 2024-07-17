@@ -15,7 +15,7 @@ namespace UnityCSharpPatch.Editor
                 if (!asset.EndsWith(".asmdef")) continue;
 
                 isAnyChange = true;
-                CscModifier.ProcessImportedAsmdef(GlobalPath(asset));
+                CscModifier.ProcessImportedAsmdef(Path.GetFileNameWithoutExtension(asset)); // path is wrong, and the problem is that i cant know the absolute path (local packages)
             }
 
             foreach (var asset in deleted)
@@ -40,11 +40,6 @@ namespace UnityCSharpPatch.Editor
             return PatchInfo.IsEditorPatched()
                 ? CsProjectModifier.Process(path, content)
                 : content;
-        }
-
-        private static string GlobalPath(string relativePath)
-        {
-            return Path.Combine(Application.dataPath, Path.GetRelativePath("Assets", relativePath));
         }
     }
 }

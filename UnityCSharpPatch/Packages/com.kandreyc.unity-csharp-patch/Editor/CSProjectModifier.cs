@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using System.Collections.Generic;
+using UnityCSharpPatch.Editor.Asmdef;
 
 namespace UnityCSharpPatch.Editor
 {
@@ -8,9 +9,9 @@ namespace UnityCSharpPatch.Editor
     {
         public static string Process(string path, string content)
         {
-            var asmdefName = $"{Path.GetFileNameWithoutExtension(path)}.asmdef";
+            var asmdefName = Path.GetFileNameWithoutExtension(path);
 
-            if (!AsmdefUtility.TryFindAsmdef(asmdefName, out var info) || !info.IsModified)
+            if (!AsmdefUtility.TryGetAsmdefPatchInfo(asmdefName, out var info))
             {
                 return content;
             }
