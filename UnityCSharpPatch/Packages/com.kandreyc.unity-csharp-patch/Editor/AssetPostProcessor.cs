@@ -1,6 +1,6 @@
 using System.IO;
+using System.Linq;
 using UnityEditor;
-using UnityEngine;
 
 namespace UnityCSharpPatch.Editor
 {
@@ -8,31 +8,16 @@ namespace UnityCSharpPatch.Editor
     {
         private static void OnPostprocessAllAssets(string[] imported, string[] deleted, string[] movedTo, string[] movedFrom)
         {
-            var isAnyChange = false;
-
-            foreach (var asset in imported)
+            if (imported.Any(IsCsc) || deleted.Any(IsCsc))
             {
-                if (!asset.EndsWith(".asmdef")) continue;
-
-                isAnyChange = true;
-                CscModifier.ProcessImportedAsmdef(Path.GetFileNameWithoutExtension(asset)); // path is wrong, and the problem is that i cant know the absolute path (local packages)
+                SolutionUtility.RegenerateProjects();
+                AssetDatabase.Refresh();
             }
+        }
 
-            foreach (var asset in deleted)
-            {
-                if (!asset.EndsWith(".asmdef")) continue;
-
-                isAnyChange = true;
-                CscModifier.ProcessDeletedAsmdef(asset);
-            }
-
-            if (!isAnyChange)
-            {
-                return;
-            }
-
-            SolutionUtility.RegenerateProjects();
-            AssetDatabase.Refresh();
+        private static bool IsCsc(string asset)
+        {
+            return Path.GetFileName(asset) is "csc.rsp";
         }
 
         public static string OnGeneratedCSProject(string path, string content)

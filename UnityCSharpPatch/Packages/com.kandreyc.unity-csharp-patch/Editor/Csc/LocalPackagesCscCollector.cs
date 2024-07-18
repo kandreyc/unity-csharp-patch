@@ -7,15 +7,15 @@ using UnityEngine;
 using UnityEditorInternal;
 using System.Collections.Generic;
 
-namespace UnityCSharpPatch.Editor.Asmdef.Collector
+namespace UnityCSharpPatch.Editor.Csc
 {
-    public static class LocalPackagesAsmdefCollector
+    public static class LocalPackagesCscCollector
     {
         private const string LocalVersionPrefix = "file:";
         private static readonly string ProjectRoot = Directory.GetParent(Application.dataPath)!.FullName;
         private static readonly string PackagesRoot = Path.Combine(ProjectRoot, "Packages");
 
-        public static Location[] Collect()
+        public static CscInfo[] Collect()
         {
             Location[] localPackages;
             if (TryGetFromPackageLock(out var packages))
@@ -28,23 +28,31 @@ namespace UnityCSharpPatch.Editor.Asmdef.Collector
             }
             else
             {
-                return Array.Empty<Location>();
+                return Array.Empty<CscInfo>();
             }
 
             return localPackages
                 .Select(location => (location, assets: AssetDatabase.FindAssets($"t:{nameof(AssemblyDefinitionAsset)}", new[] { location.Relative })))
                 .SelectMany(t => t.assets.Select(guid =>
                 {
-                    var relativePath = AssetDatabase.GUIDToAssetPath(guid);
-                    var pathFromPackage = relativePath.Replace(t.location.Relative + Path.DirectorySeparatorChar, string.Empty);
+                    var (asmdefName, cscPath) = Unpack(guid);
+
+                    var pathFromPackage = cscPath.Replace(t.location.Relative + Path.DirectorySeparatorChar, string.Empty);
                     var absolutePath = Path.Combine(t.location.Absolute, pathFromPackage);
 
-                    return new Location
+                    var location = new Location
                     {
-                        Relative = relativePath,
+                        Relative = cscPath,
                         Absolute = absolutePath
                     };
-                })).ToArray();
+
+                    return CscParser.TryParse(location.Absolute, out var info)
+                        ? new CscInfo { AsmdefName = asmdefName, Location = location, Patch = info }
+                        : default;
+
+                }))
+                .Where(info => info is not null)
+                .ToArray();
         }
 
         private static bool TryGetFromManifest(out Location[] packages)
@@ -109,13 +117,23 @@ namespace UnityCSharpPatch.Editor.Asmdef.Collector
         {
             var projectRelative = Path.Combine("Packages", packageName);
             var packagesRelative = packageVersion.Replace(LocalVersionPrefix, string.Empty);
-            var absolute = Path.GetFullPath(Path.Combine(PackagesRoot, packagesRelative));                  
+            var absolute = Path.GetFullPath(Path.Combine(PackagesRoot, packagesRelative));
 
             return new Location
             {
                 Absolute = absolute,
                 Relative = projectRelative,
             };
+        }
+
+        private static (string asmdefName, string cscPath) Unpack(string asmdef)
+        {
+            var asmdefPath = AssetDatabase.GUIDToAssetPath(asmdef);
+
+            return (
+                Path.GetFileNameWithoutExtension(asmdefPath),
+                Path.Combine(Path.GetDirectoryName(asmdefPath)!, "csc.rsp")
+            );
         }
 
         public class PackageLock
