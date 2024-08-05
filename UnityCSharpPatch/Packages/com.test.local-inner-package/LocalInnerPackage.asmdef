@@ -1,7 +1,3 @@
 {
-	"name": "LocalInnerPackage",
-	"unityCSharpPatch": {
-		"langVersion": "12",
-		"nullable": "enable"
-	}
+	"name": "LocalInnerPackage"
 }

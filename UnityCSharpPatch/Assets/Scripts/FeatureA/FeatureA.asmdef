@@ -10,9 +10,5 @@
   "autoReferenced": true,
   "defineConstraints": [],
   "versionDefines": [],
-  "noEngineReferences": false,
-  "unityCSharpPatch": {
-    "langVersion": "12",
-    "nullable": "enable"
-  }
+  "noEngineReferences": false
 }
