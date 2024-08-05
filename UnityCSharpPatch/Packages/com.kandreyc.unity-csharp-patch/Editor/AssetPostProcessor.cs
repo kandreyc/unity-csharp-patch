@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityCSharpPatch.Editor.Csc;
 
 namespace UnityCSharpPatch.Editor
 {
@@ -8,11 +9,14 @@ namespace UnityCSharpPatch.Editor
     {
         private static void OnPostprocessAllAssets(string[] imported, string[] deleted, string[] movedTo, string[] movedFrom)
         {
-            if (imported.Any(IsCsc) || deleted.Any(IsCsc))
+            if (!imported.Any(IsCsc) && !deleted.Any(IsCsc))
             {
-                SolutionUtility.RegenerateProjects();
-                AssetDatabase.Refresh();
+                return;
             }
+
+            CscCache.Reset();
+            SolutionUtility.RegenerateProjects();
+            AssetDatabase.Refresh();
         }
 
         private static bool IsCsc(string asset)
