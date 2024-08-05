@@ -44,20 +44,4 @@ namespace UnityCSharpPatch.Editor.Csc
             return info.Count > 0;
         }
     }
-    
-    // public class CscUtility
-    // {
-    //     public static bool TryGetCscInfo(string asmdefName, out Dictionary<string, string> info)
-    //     {
-    //         if (!CscCache.Value.TryGetValue(asmdefName, out var asmdef))
-    //         {
-    //             info = default;
-    //             return false;
-    //         }
-    //
-    //         var csc = Path.Combine(asmdef.Location.Absolute, "csc.rsp");
-    //
-    //         
-    //     }
-    // }
 }
