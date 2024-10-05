@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using System.Collections.Generic;
+using UnityCSharpPatch.Editor.Csc;
 
 namespace UnityCSharpPatch.Editor
 {
@@ -8,9 +9,9 @@ namespace UnityCSharpPatch.Editor
     {
         public static string Process(string path, string content)
         {
-            var asmdefName = $"{Path.GetFileNameWithoutExtension(path)}.asmdef";
+            var asmdefName = Path.GetFileNameWithoutExtension(path);
 
-            if (!AsmdefUtility.TryFindAsmdef(asmdefName, out var info) || !info.IsModified)
+            if (!CscCache.Value.TryGetValue(asmdefName, out var info))
             {
                 return content;
             }
@@ -21,14 +22,14 @@ namespace UnityCSharpPatch.Editor
 
             var children = new List<XElement>();
 
-            if (!string.IsNullOrEmpty(info.LangVersion))
+            if (info.Patch.TryGetValue("langVersion", out var version))
             {
-                children.Add(new XElement(xNamespace.GetName("LangVersion"), info.LangVersion));
+                children.Add(new XElement(xNamespace.GetName("LangVersion"), version));
             }
 
-            if (!string.IsNullOrEmpty(info.Nullable))
+            if (info.Patch.TryGetValue("nullable", out var nullable))
             {
-                children.Add(new XElement(xNamespace.GetName("Nullable"), info.Nullable));
+                children.Add(new XElement(xNamespace.GetName("Nullable"), nullable));
             }
 
             projectE!.Add(new XElement(xNamespace.GetName("PropertyGroup"), children));

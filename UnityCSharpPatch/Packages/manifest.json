@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.test.local-outer-package": "file:../AnotherPackages/com.test.local-outer-package",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ugui": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0"

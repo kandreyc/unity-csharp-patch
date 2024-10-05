@@ -9,11 +9,15 @@ How it works:
 -------------
 1. **Editor Patching**: The `UnityEditorPatch` is responsible for updating the built-in dotnet SDK within the Unity editor. Unity, by default, ships with dotnet version `6.0.21`.
 
-2. **Language Version Tracking**: `UnityPackage` keeps track of the C# language version specified in your `.asmdef` files. You're expected to manually specify the version in each `.asmdef` file.
+2. **Language Version Tracking**: `UnityPackage` keeps track of the C# language version specified in your `csc.rsp` file that is located alongside each `.asmdef`. This is required to help Unity to understand which C# version it should use while compiling the code of your `.asmdef`.
 
-3. **Compiler Response File Configuration**: To help Unity understand which C# version it should use while compiling your code, `UnityPackage` creates a `csc.rsp` file containing the C# version you've chosen in your `.asmdef`.
+3. **Project File Adjustment**: Finally, `UnityPackage` modifies the `.csproj` file to reflect the C# version specified in the `csc.rsp`. This alerts your IDE to the correct language version to use, ensuring it can provide you with all the relevant language features.
 
-4. **Project File Adjustment**: Finally, `UnityPackage` modifies the `.csproj` file to reflect the C# version identified in the `.asmdef`. This alerts your IDE to the correct language version to use, ensuring it can provide you with all the relevant language features.
+Supported AssemblyDefinition locations:
+--------
+1. Assets folder
+2. Embedded Packages - everything that is located in Packages/ folder of your project.
+3. Local Packages - everything that is located anywhere on your pc with specified path with `file:` prefix in manifest.
 
 How to Install:
 ---------------
@@ -39,12 +43,10 @@ $ dotnet UnityEditorPatch.dll revert --editor '/Applications/Unity/Hub/Editor/20
 ```
 where ``--editor`` - path to the unity editor
 
-6. Open the Unity Editor with your project and add this lines to the end of your ``.asmdef`` file:
+6. Open the Unity Editor with your project and create a `csc.rsp` file alongside desired `.asmdef` with the following content:
 ```
-  "unityCSharpPatch": {
-    "langVersion": "12",
-    "nullable": "enable"
-  }
+-langVersion:12
+-nullable:enable
 ```
 where:
 
