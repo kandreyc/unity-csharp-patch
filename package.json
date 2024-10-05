@@ -1,7 +1,7 @@
 {
   "displayName": "Unity CSharp Patch",
   "name": "com.kandreyc.unity-csharp-patch",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "unity": "2022.3",
   "description": "Package allows to set custom (newer) version of C# per AssemblyDefinition (.asmdef)."
 }
