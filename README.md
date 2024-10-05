@@ -27,7 +27,7 @@ How to Install:
 >
 > Patch will modify the Editor installation, so all the projects that are using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
 
-1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.0.0``
+1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.1.0``
 2. Ensure Unity Editor is closed.
 3. Ensure latest stable dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
 4. Open terminal at folder ``EditorPatch~`` inside the added package.
