@@ -45,6 +45,13 @@ public static class FileSystemUtility
     public static void CopyFile(string file, string destination)
     {
         Console.WriteLine($"Copying file '{file}' -> {destination}");
+
+        var destinationDirectory = Path.GetDirectoryName(destination);
+        if (!string.IsNullOrEmpty(destinationDirectory))
+        {
+            Directory.CreateDirectory(destinationDirectory);
+        }
+
         File.Copy(file, destination);
     }
 }
