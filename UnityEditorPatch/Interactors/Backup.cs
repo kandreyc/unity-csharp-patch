@@ -24,12 +24,12 @@ public static class Backup
             var backupPath = Path.Combine(info.ContentLocation, BackupDirectory);
 
             Directory.CreateDirectory(backupPath);
-            FileSystemUtility.CopyDirectory(info.RoslynLocation, BackupLocation(backupPath, info.RoslynLocation));
-            FileSystemUtility.CopyDirectory(info.RuntimeLocation, BackupLocation(backupPath, info.RuntimeLocation));
+            FileSystemUtility.CopyDirectory(info.RoslynLocation, BackupLocation(backupPath, info.RoslynLocation, relativeTo: info.ContentLocation));
+            FileSystemUtility.CopyDirectory(info.RuntimeLocation, BackupLocation(backupPath, info.RuntimeLocation, relativeTo: info.ContentLocation));
 
             foreach (var sourceGeneratorLocation in info.SourceGeneratorLocations)
             {
-                FileSystemUtility.CopyFile(sourceGeneratorLocation, BackupLocation(backupPath, sourceGeneratorLocation));
+                FileSystemUtility.CopyFile(sourceGeneratorLocation, BackupLocation(backupPath, sourceGeneratorLocation, relativeTo: info.ContentLocation));
             }
         }
         catch (Exception)
@@ -51,12 +51,12 @@ public static class Backup
 
             var backupPath = Path.Combine(info.ContentLocation, BackupDirectory);
 
-            FileSystemUtility.ReplaceDirectory(info.RoslynLocation, with: BackupLocation(backupPath, info.RoslynLocation));
-            FileSystemUtility.ReplaceDirectory(info.RuntimeLocation, with: BackupLocation(backupPath, info.RuntimeLocation));
+            FileSystemUtility.ReplaceDirectory(info.RoslynLocation, with: BackupLocation(backupPath, info.RoslynLocation, relativeTo: info.ContentLocation));
+            FileSystemUtility.ReplaceDirectory(info.RuntimeLocation, with: BackupLocation(backupPath, info.RuntimeLocation, relativeTo: info.ContentLocation));
 
             foreach (var sourceGeneratorLocation in info.SourceGeneratorLocations)
             {
-                FileSystemUtility.ReplaceFile(sourceGeneratorLocation, BackupLocation(backupPath, sourceGeneratorLocation));
+                FileSystemUtility.ReplaceFile(sourceGeneratorLocation, BackupLocation(backupPath, sourceGeneratorLocation, relativeTo: info.ContentLocation));
             }
 
             Directory.Delete(backupPath, recursive: true);
@@ -69,8 +69,9 @@ public static class Backup
         return true;
     }
 
-    private static string BackupLocation(string backupLocation, string location)
+    private static string BackupLocation(string backupLocation, string location, string relativeTo)
     {
-        return Path.Combine(backupLocation, Path.GetFileName(location));
+        var relativeLocation = Path.GetRelativePath(relativeTo, location);
+        return Path.Combine(backupLocation, relativeLocation);
     }
 }
