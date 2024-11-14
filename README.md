@@ -6,7 +6,7 @@ Unity C# Patch
 Unleash the full potential by being in sync with the latest C# versions that are configured individually for each ``.asmdef``.
 
 > [!NOTE]
-> .NET 9 and c# 13 is not tested yet, so use it with caution or stick with .net 8/c# 12 for know. I'll add information to the table 'Language Support' below.
+> .NET 9 and c# 13 is not tested yet, so use it with caution or stick with .net 8/c# 12 for know. I'll check and add information to the table 'Language Support' below once will check it by myself.
 
 How it works:
 -------------
