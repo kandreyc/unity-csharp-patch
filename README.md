@@ -5,6 +5,9 @@ Unity C# Patch
 
 Unleash the full potential by being in sync with the latest C# versions that are configured individually for each ``.asmdef``.
 
+> [!NOTE]
+> .NET 9 and c# 13 is not tested yet, so use it with caution or stick with .net 8/c# 12 for know. I'll add information to the table 'Language Support' below.
+
 How it works:
 -------------
 1. **Editor Patching**: The `UnityEditorPatch` is responsible for updating the built-in dotnet SDK within the Unity editor. Unity, by default, ships with dotnet version `6.0.21`.
@@ -21,7 +24,7 @@ Supported AssemblyDefinition locations:
 
 How to Install:
 ---------------
-> [!NOTE]  
+> [!NOTE]
 > OS support: Mac/Linux/Windows.
 > You can backup your editor just in case, but should be fine.
 >
