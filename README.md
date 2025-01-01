@@ -5,9 +5,6 @@ Unity C# Patch
 
 Unleash the full potential by being in sync with the latest C# versions that are configured individually for each ``.asmdef``.
 
-> [!NOTE]
-> .NET 9 and c# 13 is not tested yet, so use it with caution or stick with .net 8/c# 12 until I'll check and add information to the 'Language Support' table below.
-
 How it works:
 -------------
 1. **Editor Patching**: The `UnityEditorPatch` is responsible for updating the built-in dotnet SDK within the Unity editor. Unity, by default, ships with dotnet version `6.0.21`.
@@ -48,12 +45,12 @@ where ``--editor`` - path to the unity editor
 
 6. Open the Unity Editor with your project and create a `csc.rsp` file alongside desired `.asmdef` with the following content:
 ```
--langVersion:12
+-langVersion:13
 -nullable:enable
 ```
 where:
 
-- ``langVersion`` (optional) - C# version you want to be used for this ``.asmdef``. Values are ``10``, ``11``, ``12``
+- ``langVersion`` (optional) - C# version you want to be used for this ``.asmdef``. Values are ``10``, ``11``, ``12``, ``13``, ``preview``
 - ``nullable`` (optional) - allows to use nullables like ``string?`` without defining ``#nullable enable/disable`` in each file where it used. Values are ``enable``, ``disable``
 
 7. Refresh the Editor. All required magic should be done here.
