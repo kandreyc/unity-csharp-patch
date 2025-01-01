@@ -27,7 +27,7 @@ namespace UnityCSharpPatch.Editor.Csc
                 if (!map.TryAdd(info.AsmdefName, info))
                 {
                     Debug.LogWarningFormat(
-                        "Detected multiple {0}.asmdef files with the same name. This is not supported. None of them will be used.",
+                        "Detected multiple {0}.asmdef files with the same name. This is not supported.",
                         info.AsmdefName
                     );
                 }

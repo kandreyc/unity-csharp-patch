@@ -5,9 +5,6 @@ Unity C# Patch
 
 Unleash the full potential by being in sync with the latest C# versions that are configured individually for each ``.asmdef``.
 
-> [!NOTE]
-> .NET 9 and c# 13 is not tested yet, so use it with caution or stick with .net 8/c# 12 until I'll check and add information to the 'Language Support' table below.
-
 How it works:
 -------------
 1. **Editor Patching**: The `UnityEditorPatch` is responsible for updating the built-in dotnet SDK within the Unity editor. Unity, by default, ships with dotnet version `6.0.21`.
@@ -48,12 +45,12 @@ where ``--editor`` - path to the unity editor
 
 6. Open the Unity Editor with your project and create a `csc.rsp` file alongside desired `.asmdef` with the following content:
 ```
--langVersion:12
+-langVersion:13
 -nullable:enable
 ```
 where:
 
-- ``langVersion`` (optional) - C# version you want to be used for this ``.asmdef``. Values are ``10``, ``11``, ``12``
+- ``langVersion`` (optional) - C# version you want to be used for this ``.asmdef``. Values are ``10``, ``11``, ``12``, ``13``, ``preview``
 - ``nullable`` (optional) - allows to use nullables like ``string?`` without defining ``#nullable enable/disable`` in each file where it used. Values are ``enable``, ``disable``
 
 7. Refresh the Editor. All required magic should be done here.
@@ -63,6 +60,17 @@ Language Support
 ----------------
 C# | Feature | Support
 -|-|:-----:
+preview | [The `field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#the-field-keyword) | Yes
+13 | [params collections](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#params-collections) | Yes
+13 | [New lock type and semantics](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-lock-object) | No
+13 | [New escape sequence - \\e](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-escape-sequence) | Yes
+13 | [Method group natural type improvements](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#method-group-natural-type) | Yes
+13 | [Implicit indexer access in object initializers](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#implicit-index-access) | Yes
+13 | [Enable ref locals and unsafe contexts in iterators and async methods](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#ref-and-unsafe-in-iterators-and-async-methods) | Yes
+13 | [Enable ref struct types to implement interfaces](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#ref-struct-interfaces) | No
+13 | [Allow ref struct types as arguments for type parameters in generics](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#allows-ref-struct) | No
+13 | [Partial properties and indexers](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#more-partial-members) | Yes
+13 | [Overload resolution priority](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#overload-resolution-priority) | PolySharp
 12 | [Primary constructors](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12#primary-constructors) | Yes
 12 | [Optional parameters in lambda expressions](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12#default-lambda-parameters) | Yes
 12 | [Alias for any type](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12#alias-any-type) | Yes
