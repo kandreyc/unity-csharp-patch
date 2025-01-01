@@ -63,6 +63,17 @@ Language Support
 ----------------
 C# | Feature | Support
 -|-|:-----:
+preview | [The `field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#the-field-keyword) | Yes
+13 | [params collections](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#params-collections) | Yes
+13 | [New lock type and semantics](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-lock-object) | No
+13 | [New escape sequence - \\e](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-escape-sequence) | Yes
+13 | [Method group natural type improvements](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#method-group-natural-type) | Yes
+13 | [Implicit indexer access in object initializers](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#implicit-index-access) | Yes
+13 | [Enable ref locals and unsafe contexts in iterators and async methods](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#ref-and-unsafe-in-iterators-and-async-methods) | Yes
+13 | [Enable ref struct types to implement interfaces](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#ref-struct-interfaces) | No
+13 | [Allow ref struct types as arguments for type parameters in generics](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#allows-ref-struct) | No
+13 | [Partial properties and indexers](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#more-partial-members) | Yes
+13 | [Overload resolution priority](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#overload-resolution-priority) | PolySharp
 12 | [Primary constructors](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12#primary-constructors) | Yes
 12 | [Optional parameters in lambda expressions](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12#default-lambda-parameters) | Yes
 12 | [Alias for any type](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-12#alias-any-type) | Yes
