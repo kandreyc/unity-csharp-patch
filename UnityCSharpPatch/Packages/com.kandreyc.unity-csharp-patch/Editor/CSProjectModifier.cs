@@ -1,6 +1,6 @@
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
-using System.Collections.Generic;
 using UnityCSharpPatch.Editor.Csc;
 
 namespace UnityCSharpPatch.Editor
@@ -17,24 +17,33 @@ namespace UnityCSharpPatch.Editor
             }
 
             var xDocument = XDocument.Parse(content);
-            var xNamespace = xDocument.Root!.GetDefaultNamespace();
-            var projectE = xDocument.Element(xNamespace.GetName("Project"));
-
-            var children = new List<XElement>();
+            var langVersionElement = xDocument.Find("LangVersion");
 
             if (info.Patch.TryGetValue("langVersion", out var version))
             {
-                children.Add(new XElement(xNamespace.GetName("LangVersion"), version));
+                langVersionElement!.Value = version;
             }
 
             if (info.Patch.TryGetValue("nullable", out var nullable))
             {
-                children.Add(new XElement(xNamespace.GetName("Nullable"), nullable));
+                langVersionElement!.AddAfterSelf(xDocument.CreateElement("Nullable", nullable));
             }
 
-            projectE!.Add(new XElement(xNamespace.GetName("PropertyGroup"), children));
-
             return xDocument.ToString();
+        }
+
+        private static XElement Find(this XDocument document, string name)
+        {
+            var fullName = document.Root!.GetDefaultNamespace().GetName(name);
+            return document.Descendants().First(e => e.Name == fullName);
+        }
+
+        private static XElement CreateElement(this XDocument document, string name, string value)
+        {
+            return new XElement(
+                document.Root!.GetDefaultNamespace().GetName(name),
+                value
+            );
         }
     }
 }
