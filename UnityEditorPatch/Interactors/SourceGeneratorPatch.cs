@@ -1,6 +1,5 @@
 using AsmResolver.DotNet;
 using AsmResolver.DotNet.Signatures;
-using AsmResolver.DotNet.Signatures.Types;
 using UnityEditorPatch.Extensions;
 using UnityEditorPatch.InfoProviders.Editor;
 
