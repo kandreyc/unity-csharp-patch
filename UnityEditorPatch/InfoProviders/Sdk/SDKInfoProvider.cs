@@ -7,7 +7,7 @@ namespace UnityEditorPatch.InfoProviders.Sdk;
 
 public static partial class SDKInfoProvider
 {
-    [GeneratedRegex(@"(\d+\.\d+\.\d+)[\s]\[(.+)\]", RegexOptions.Multiline)]
+    [GeneratedRegex(@"(\d+\.\d+\.\d+(?:-[\w\.]+)?)[\s]\[(.+)\]", RegexOptions.Multiline)]
     private static partial Regex SDKInfoRegex();
 
     public static bool TryGet(out SDKInfo info)
