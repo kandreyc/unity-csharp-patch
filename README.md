@@ -15,19 +15,32 @@ How it works:
 
 Supported AssemblyDefinition locations:
 --------
-1. Assets folder
-2. Embedded Packages - everything that is located in Packages/ folder of your project.
+1. Project - everything that is located in `Assets/` folder of your project.
+2. Embedded Packages - everything that is located in `Packages/` folder of your project.
 3. Local Packages - everything that is located anywhere on your pc with specified path with `file:` prefix in manifest.
 
-How to Install:
----------------
+> [!WARNING]
+> **DON'T** put `.asmdef` with its `csc.rsp` at the root of the project (`Assets/`).
+> Unity in that case will apply the specified C# version to everything, that may cause compile errors (e.g. `field` keyword is used as a name in some third party library).
+> Place it in any subfolder (usually Scripts, but doesn't matter, just not at the root)
+
+
 > [!NOTE]
 > OS support: Mac / Linux / Windows.
 > You can backup your editor just in case, but should be fine.
 >
 > Patch will modify the Editor installation, so all the projects that are using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
+>
+> Tested on target platforms: Mac / Windows / Linux / iOS / Android / WebGL
+>
+> Tested in IDEs:
 > 
-> Tested on target platforms: Mac / Windows / Linux / iOS / Android / WebGL 
+> Rider `2025.1` with integration package `com.unity.ide.rider@3.0.36`
+> 
+> VSCode `1.99.3` with integration package `com.unity.ide.visualstudio@2.0.23`
+
+How to Install:
+---------------
 
 1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.3.0``
 2. Ensure Unity Editor is closed.
@@ -62,6 +75,12 @@ where:
 
 Language Support
 ----------------
+
+> [!NOTE]
+> `preview` features support of .net 10 in Rider is still in development.
+> Code will compile and work, but you may suffer from errors in IDE.
+> Currently only VSCode supports all new features   
+
 C# | Feature | Support
 -|-|:-----:
 preview | [`field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#the-field-keyword) | Yes
