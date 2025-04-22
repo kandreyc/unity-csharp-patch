@@ -1,0 +1,48 @@
+name: development
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-node@v4
+    - uses: git-actions/set-user@v1
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Build
+      working-directory: ./UnityEditorPatch
+      run: |
+        buildFolder="build/"
+        targetFolder="./build/EditorPatch~"
+
+        dotnet publish UnityEditorPatch.csproj -c Release --no-self-contained -o $buildFolder
+
+        mkdir $targetFolder
+        mv ./build/UnityEditorPatch.dll $targetFolder
+        mv ./build/UnityEditorPatch.runtimeconfig.json $targetFolder
+
+    - name: Assemble Package
+      run: |
+        mkdir package
+        mv ./UnityEditorPatch/build/EditorPatch~ ./package
+        mv ./UnityCSharpPatch/Packages/com.kandreyc.unity-csharp-patch/** ./package
+
+    - name: Publish Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: package
+        path: ./package/**
+        retention-days: 1
