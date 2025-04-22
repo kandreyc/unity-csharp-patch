@@ -1,23 +1,23 @@
-using System.Runtime.Loader;
-using System.Text.RegularExpressions;
 using NuGet.Versioning;
+using System.Runtime.Loader;
 using UnityEditorPatch.Utilities;
+using System.Text.RegularExpressions;
 
 namespace UnityEditorPatch.InfoProviders.Sdk;
 
 public static partial class SDKInfoProvider
 {
-    [GeneratedRegex(@"(\d+\.\d+\.\d+)[\s]\[(.+)\]", RegexOptions.Multiline)]
+    [GeneratedRegex(@"(\d+\.\d+\.\d+(?:-[\w\.]+)?)[\s]\[(.+)\]", RegexOptions.Multiline)]
     private static partial Regex SDKInfoRegex();
 
-    public static bool TryGet(out SDKInfo info)
+    public static bool TryGet(out SDKInfo info, bool allowPrerelease)
     {
         // this version is used by unity
         var minVersion = SemanticVersion.Parse("6.0.21");
 
-        if (!TryGetSdks(out var sdks))
+        if (!TryGetSdks(out var sdks, allowPrerelease))
         {
-            info = default!;
+            info = null!;
             return false;
         }
 
@@ -37,17 +37,17 @@ public static partial class SDKInfoProvider
             return true;
         }
 
-        info = default!;
+        info = null!;
         return false;
     }
 
-    private static bool TryGetSdks(out IReadOnlyCollection<SDKInfo> sdks)
+    private static bool TryGetSdks(out IReadOnlyCollection<SDKInfo> sdks, bool allowPrerelease)
     {
-        sdks = GetSdks().OrderBy(sdk => sdk.Version.ToString()).ToArray();
+        sdks = GetSdks(allowPrerelease).OrderBy(sdk => sdk.Version).ToArray();
         return sdks.Count > 0;
     }
 
-    private static IEnumerable<SDKInfo> GetSdks()
+    private static IEnumerable<SDKInfo> GetSdks(bool allowPrerelease)
     {
         var listSdks = ProcessUtility.ReadOutputFrom(command: "dotnet", withArgument: "--list-sdks");
 
@@ -59,14 +59,15 @@ public static partial class SDKInfoProvider
             var dotnetLocation = Path.GetDirectoryName(path);
             var roslynLocation = Path.Combine(sdkLocation, "Roslyn", "bincore");
 
-            if (!SemanticVersion.TryParse(version, out var semanticVersion)) continue;
+            if (!NuGetVersion.TryParse(version, out var nugetVersion)) continue;
+            if (!allowPrerelease && nugetVersion.IsPrerelease) continue;
             if (!Directory.Exists(path) || !Directory.Exists(sdkLocation) || !Directory.Exists(dotnetLocation)) continue;
 
             yield return new SDKInfo
             {
+                Version = nugetVersion,
                 SDKLocation = sdkLocation,
                 Location = dotnetLocation,
-                Version = semanticVersion,
                 RoslynLocation = roslynLocation,
                 LatestCSharpVersion = GetLatestCSharpVersion(roslynLocation)
             };
@@ -75,7 +76,7 @@ public static partial class SDKInfoProvider
 
     private static string GetLatestCSharpVersion(string roslynLocation)
     {
-        AssemblyLoadContext context = default!;
+        AssemblyLoadContext context = null!;
 
         try
         {
@@ -94,7 +95,7 @@ public static partial class SDKInfoProvider
             version = facts.GetMethod("MapSpecifiedToEffectiveVersion")!.Invoke(null, [version]);
 
             // Map the version to a LangVersion string.
-            return (string)facts.GetMethod("ToDisplayString")!.Invoke(null, new[] { version })!;
+            return (string)facts.GetMethod("ToDisplayString")!.Invoke(null, [version])!;
         }
         catch (Exception)
         {

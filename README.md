@@ -22,20 +22,24 @@ Supported AssemblyDefinition locations:
 How to Install:
 ---------------
 > [!NOTE]
-> OS support: Mac/Linux/Windows.
+> OS support: Mac / Linux / Windows.
 > You can backup your editor just in case, but should be fine.
 >
 > Patch will modify the Editor installation, so all the projects that are using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
+> 
+> Tested on target platforms: Mac / Windows / Linux / iOS / Android / WebGL 
 
 1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.3.0``
 2. Ensure Unity Editor is closed.
-3. Ensure latest stable dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
+3. Ensure latest dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
 4. Open terminal at folder ``EditorPatch~`` inside the added package.
 5. Patch the editor (administrative privileges are required):
 ```
-$ dotnet UnityEditorPatch.dll apply --editor '/Applications/Unity/Hub/Editor/2022.3.21f1'
+$ dotnet UnityEditorPatch.dll apply --editor '/Applications/Unity/Hub/Editor/2022.3.21f1' --allow-prerelease
 ```
 where ``--editor`` - path to the unity editor
+
+where ``--allow-prerelease`` - (optional) allows to use prerelease dotnet sdk
 
 In case if you want to revert the patch:
 ```
@@ -60,8 +64,14 @@ Language Support
 ----------------
 C# | Feature | Support
 -|-|:-----:
-preview | [The `field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#the-field-keyword) | Yes
-13 | [params collections](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#params-collections) | Yes
+preview | [`field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#the-field-keyword) | Yes
+preview | [`partial` events and instance constructors](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#more-partial-members) | Yes
+preview | [`nameof` unbound generic types support for](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#unbound-generic-types-and-nameof) | Yes
+preview | [Extension members](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#extension-members) | Yes
+preview | [Null conditional assignment](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#null-conditional-assignment) | Yes
+preview | [Simple lambda parameters](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#simple-lambda-parameters-with-modifiers) | Yes
+preview | [Implicit span conversions](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#implicit-span-conversions) | Yes
+13 | [`params` collections](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#params-collections) | Yes
 13 | [New lock type and semantics](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-lock-object) | No
 13 | [New escape sequence - \\e](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-escape-sequence) | Yes
 13 | [Method group natural type improvements](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#method-group-natural-type) | Yes
