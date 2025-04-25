@@ -35,9 +35,11 @@ Supported AssemblyDefinition locations:
 >
 > Tested in IDEs:
 > 
-> Rider `2025.1` with integration package `com.unity.ide.rider@3.0.36`
+> `Rider 2025.1` with integration package `com.unity.ide.rider@3.0.36`
 > 
-> VSCode `1.99.3` with integration package `com.unity.ide.visualstudio@2.0.23`
+> `VSCode 1.99.3` with integration package `com.unity.ide.visualstudio@2.0.23`
+>
+> `Visual Studio Community 2022 17.13.6` with integration package `com.unity.ide.visualstudio@2.0.23`
 
 How to Install:
 ---------------
@@ -77,9 +79,9 @@ Language Support
 ----------------
 
 > [!NOTE]
-> `preview` features support of .net 10 in Rider is still in development.
+> `preview` features support of .net 10 in `Rider` / `Visual Studio` is still in development.
 > Code will compile and work, but you may suffer from errors in IDE.
-> Currently only VSCode supports all new features   
+> Currently only `VSCode` supports all new features
 
 C# | Feature | Support
 -|-|:-----:
