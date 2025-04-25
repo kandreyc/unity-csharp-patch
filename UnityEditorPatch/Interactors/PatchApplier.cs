@@ -5,9 +5,9 @@ namespace UnityEditorPatch.Interactors;
 
 public static class PatchApplier
 {
-    public static Result Perform(string editorPath)
+    public static Result Perform(string editorPath, bool allowPrerelease)
     {
-        if (!SDKInfoProvider.TryGet(out var sdkInfo))
+        if (!SDKInfoProvider.TryGet(out var sdkInfo, allowPrerelease))
         {
             return Result.Error("Failed to select dotnet sdk.");
         }

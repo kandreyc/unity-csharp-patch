@@ -8,8 +8,9 @@ var result = Parser.Default
     .MapResult<RevertPatchOptions, ApplyPatchOptions, Result>
     (
         options => PatchReverter.Perform(options.EditorPath),
-        options => PatchApplier.Perform(options.EditorPath),
+        options => PatchApplier.Perform(options.EditorPath, options.AllowPrerelease),
         errors => Result.Error(errors.Select(e => e.ToString()).ToArray()!)
     );
 
+Console.WriteLine();
 Console.WriteLine(result);

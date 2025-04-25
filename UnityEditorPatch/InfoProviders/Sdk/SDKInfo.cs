@@ -10,7 +10,7 @@ public class SDKInfo
     public string SDKLocation { get; init; }
 
     public string RoslynLocation { get; init; }
-    public SemanticVersion Version { get; init; }
+    public NuGetVersion Version { get; init; }
     public string LatestCSharpVersion { get; init; }
 }
 

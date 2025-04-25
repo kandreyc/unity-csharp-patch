@@ -12,7 +12,7 @@ namespace UnityCSharpPatch.Editor.Csc
             { "11", "11"},
             { "12", "12"},
             { "13", "13"},
-            { "preview", "14"}
+            { "preview", "preview"}
         };
 
         public static bool TryParse(string csc, out Dictionary<string, string> info)

@@ -15,27 +15,44 @@ How it works:
 
 Supported AssemblyDefinition locations:
 --------
-1. Assets folder
-2. Embedded Packages - everything that is located in Packages/ folder of your project.
+1. Project - everything that is located in `Assets/` folder of your project.
+2. Embedded Packages - everything that is located in `Packages/` folder of your project.
 3. Local Packages - everything that is located anywhere on your pc with specified path with `file:` prefix in manifest.
 
-How to Install:
----------------
+> [!WARNING]
+> **DON'T** put `.asmdef` with its `csc.rsp` at the root of the project (`Assets/`).
+> Unity in that case will apply the specified C# version to everything, that may cause compile errors (e.g. `field` keyword is used as a name in some third party library).
+> Place it in any subfolder (usually Scripts, but doesn't matter, just not at the root)
+
+
 > [!NOTE]
-> OS support: Mac/Linux/Windows.
+> OS support: Mac / Linux / Windows.
 > You can backup your editor just in case, but should be fine.
 >
 > Patch will modify the Editor installation, so all the projects that are using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
+>
+> Tested on target platforms: Mac / Windows / Linux / iOS / Android / WebGL
+>
+> Tested in IDEs:
+> 
+> Rider `2025.1` with integration package `com.unity.ide.rider@3.0.36`
+> 
+> VSCode `1.99.3` with integration package `com.unity.ide.visualstudio@2.0.23`
+
+How to Install:
+---------------
 
 1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.3.0``
 2. Ensure Unity Editor is closed.
-3. Ensure latest stable dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
+3. Ensure latest dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
 4. Open terminal at folder ``EditorPatch~`` inside the added package.
 5. Patch the editor (administrative privileges are required):
 ```
-$ dotnet UnityEditorPatch.dll apply --editor '/Applications/Unity/Hub/Editor/2022.3.21f1'
+$ dotnet UnityEditorPatch.dll apply --editor '/Applications/Unity/Hub/Editor/2022.3.21f1' --allow-prerelease
 ```
 where ``--editor`` - path to the unity editor
+
+where ``--allow-prerelease`` - (optional) allows to use prerelease dotnet sdk
 
 In case if you want to revert the patch:
 ```
@@ -58,10 +75,22 @@ where:
 
 Language Support
 ----------------
+
+> [!NOTE]
+> `preview` features support of .net 10 in Rider is still in development.
+> Code will compile and work, but you may suffer from errors in IDE.
+> Currently only VSCode supports all new features   
+
 C# | Feature | Support
 -|-|:-----:
-preview | [The `field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#the-field-keyword) | Yes
-13 | [params collections](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#params-collections) | Yes
+preview | [`field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#the-field-keyword) | Yes
+preview | [`partial` events and instance constructors](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#more-partial-members) | Yes
+preview | [`nameof` unbound generic types support for](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#unbound-generic-types-and-nameof) | Yes
+preview | [Extension members](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#extension-members) | Yes
+preview | [Null conditional assignment](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#null-conditional-assignment) | Yes
+preview | [Simple lambda parameters](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#simple-lambda-parameters-with-modifiers) | Yes
+preview | [Implicit span conversions](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#implicit-span-conversions) | Yes
+13 | [`params` collections](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#params-collections) | Yes
 13 | [New lock type and semantics](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-lock-object) | No
 13 | [New escape sequence - \\e](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-escape-sequence) | Yes
 13 | [Method group natural type improvements](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#method-group-natural-type) | Yes

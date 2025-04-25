@@ -9,6 +9,9 @@ public class ApplyPatchOptions
 {
     [Option("editor", Required = true, HelpText = "Path to the Unity Editor.")]
     public string EditorPath { get; set; }
+
+    [Option("allow-prerelease", HelpText = "Allow prerelease versions of SDKs.")]
+    public bool AllowPrerelease { get; set; }
 }
 
 #pragma warning restore CS8618
