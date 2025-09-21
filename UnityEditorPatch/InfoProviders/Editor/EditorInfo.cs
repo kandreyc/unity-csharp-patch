@@ -5,7 +5,6 @@ namespace UnityEditorPatch.InfoProviders.Editor;
 public class EditorInfo
 {
     public bool IsPatched { get; init; }
-    public string Version { get; init; }
     public string Location { get; init; }
     public string ContentLocation { get; init; }
     public string RuntimeLocation { get; init; }

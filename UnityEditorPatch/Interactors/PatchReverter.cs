@@ -6,12 +6,22 @@ public static class PatchReverter
 {
     public static Result Perform(string editorPath)
     {
-        if (!EditorInfoProvider.TryGet(editorPath, out var editorInfo))
+        if (!UnityVersion.TryParse(Path.GetFileName(editorPath), out var version))
+        {
+            return Result.Error("Failed to parse editor version.");
+        }
+
+        if (!EditorVersionVerifier.IsSupported(version))
+        {
+            return Result.Error($"Editor version '{version}' is not supported.");
+        }
+
+        if (!EditorInfoProvider.TryGet(version, editorPath, out var editorInfo))
         {
             return Result.Error("Failed to get unity editor info.");
         }
 
-        Console.WriteLine($"Editor: {editorInfo.Version}");
+        Console.WriteLine($"Editor: {version}");
 
         if (!editorInfo.IsPatched)
         {

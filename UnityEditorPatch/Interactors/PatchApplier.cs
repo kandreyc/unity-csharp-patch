@@ -1,5 +1,5 @@
-using UnityEditorPatch.InfoProviders.Editor;
 using UnityEditorPatch.InfoProviders.Sdk;
+using UnityEditorPatch.InfoProviders.Editor;
 
 namespace UnityEditorPatch.Interactors;
 
@@ -7,17 +7,27 @@ public static class PatchApplier
 {
     public static Result Perform(string editorPath, bool allowPrerelease)
     {
+        if (!UnityVersion.TryParse(Path.GetFileName(editorPath), out var version))
+        {
+            return Result.Error("Failed to parse editor version.");
+        }
+
+        if (!EditorVersionVerifier.IsSupported(version))
+        {
+            return Result.Error($"Editor version '{version}' is not supported.");
+        }
+
         if (!SDKInfoProvider.TryGet(out var sdkInfo, allowPrerelease))
         {
             return Result.Error("Failed to select dotnet sdk.");
         }
 
-        if (!EditorInfoProvider.TryGet(editorPath, out var editorInfo))
+        if (!EditorInfoProvider.TryGet(version, editorPath, out var editorInfo))
         {
             return Result.Error("Failed to get unity editor info.");
         }
 
-        Console.WriteLine($"Editor: {editorInfo.Version}");
+        Console.WriteLine($"Editor: {version}");
 
         if (editorInfo.IsPatched)
         {

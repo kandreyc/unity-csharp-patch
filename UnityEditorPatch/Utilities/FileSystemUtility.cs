@@ -54,4 +54,9 @@ public static class FileSystemUtility
 
         File.Copy(file, destination);
     }
+    
+    public static bool IsDirectoriesExists(params string[] paths)
+    {
+        return paths.All(Directory.Exists);
+    }
 }
