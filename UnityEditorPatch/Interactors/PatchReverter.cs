@@ -1,4 +1,5 @@
 using UnityEditorPatch.InfoProviders.Editor;
+using UnityEditorPatch.Utilities;
 
 namespace UnityEditorPatch.Interactors;
 
@@ -11,12 +12,17 @@ public static class PatchReverter
             return Result.Error("Failed to parse editor version.");
         }
 
+        if (!OperatingSystemUtility.TryGetOSPlatform(out var platform))
+        {
+            return Result.Error("Platform is not supported.");
+        }
+
         if (!EditorVersionVerifier.IsSupported(version))
         {
             return Result.Error($"Editor version '{version}' is not supported.");
         }
 
-        if (!EditorInfoProvider.TryGet(version, editorPath, out var editorInfo))
+        if (!EditorInfoProvider.TryGet(version, platform, editorPath, out var editorInfo))
         {
             return Result.Error("Failed to get unity editor info.");
         }
