@@ -14,7 +14,7 @@ public partial class UnityVersion : SemanticVersion
 
 public partial class UnityVersion
 {
-    private static readonly Regex VersionRegex = new(@"^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)(?<type>[abf])(?<build>\d+)$");
+    private static readonly Regex VersionRegex = new(@"^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)(?<type>[abf])(?<build>\d+)");
 
     public static bool TryGet(string editorPath, OSPlatform platform, out UnityVersion semanticVersion)
     {
