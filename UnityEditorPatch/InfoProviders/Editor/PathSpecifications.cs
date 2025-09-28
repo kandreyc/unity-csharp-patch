@@ -40,7 +40,7 @@ public static class PathSpecifications
                     Combine("Tools", "Unity.SourceGenerators", "Unity.SourceGenerators.dll"),
                     Combine("Tools", "Compilation", "Unity.SourceGenerators", "Unity.SourceGenerators.dll")
                 ]
-            },
+            }
         }),
 
         (new UnityVersion(6000, 3), new PathSpecificationMap
@@ -65,6 +65,16 @@ public static class PathSpecifications
                     Combine("Tools", "BuildPipeline", "Compilation", "Unity.SourceGenerators", "Unity.SourceGenerators.dll")
                 ]
             },
+            [OSPlatform.Linux] = new()
+            {
+                RuntimePath = "NetCoreRuntime",
+                RoslynLocation = "DotNetSdkRoslyn",
+                SourceGeneratorLocations =
+                [
+                    Combine("Tools", "BuildPipeline", "Unity.SourceGenerators", "Unity.SourceGenerators.dll"),
+                    Combine("Tools", "BuildPipeline", "Compilation", "Unity.SourceGenerators", "Unity.SourceGenerators.dll")
+                ]
+            }
         })
     ];
 
