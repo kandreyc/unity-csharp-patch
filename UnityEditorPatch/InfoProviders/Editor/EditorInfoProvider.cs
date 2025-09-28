@@ -1,26 +1,29 @@
-using UnityEditorPatch.Interactors;
 using System.Runtime.InteropServices;
-using static System.Runtime.InteropServices.RuntimeInformation;
+using UnityEditorPatch.Utilities;
+using UnityEditorPatch.Interactors;
 
 namespace UnityEditorPatch.InfoProviders.Editor;
 
 public static class EditorInfoProvider
 {
-    public static bool TryGet(string lookupPath, out EditorInfo info)
+    public static bool TryGet(UnityVersion version, OSPlatform platform, string lookupPath, out EditorInfo info)
     {
-        var contentPath = GetContentPath(lookupPath);
-        Console.WriteLine($"Content Path -> {contentPath}");
-        var runtimePath = Path.Combine(contentPath, "NetCoreRuntime");
-        var roslynPath = Path.Combine(contentPath, "DotNetSdkRoslyn");
-        var sourceGeneratorLocations = new[]
+        if (!PathSpecifications.TryGetLatest(version, platform, out PathSpecification pathSpecification))
         {
-            Path.Combine(contentPath, "Tools", "Unity.SourceGenerators", "Unity.SourceGenerators.dll"),
-            Path.Combine(contentPath, "Tools", "Compilation", "Unity.SourceGenerators", "Unity.SourceGenerators.dll")
-        }.Where(File.Exists).ToArray();
+            info = null!;
+            return false;
+        }
 
-        if (!IsDirectoriesExists(contentPath, runtimePath, roslynPath) || sourceGeneratorLocations.Length is 0)
+        var contentPath = UnityLocationUtility.GetContentPath(lookupPath);
+        var runtimePath = Path.Combine(contentPath, pathSpecification.RuntimePath);
+        var roslynPath = Path.Combine(contentPath, pathSpecification.RoslynLocation);
+        var sourceGeneratorLocations = pathSpecification.SourceGeneratorLocations
+            .Select(location => Path.Combine(contentPath, location))
+            .Where(File.Exists).ToArray();
+
+        if (!FileSystemUtility.IsDirectoriesExists(contentPath, runtimePath, roslynPath) || sourceGeneratorLocations.Length is 0)
         {
-            info = default!;
+            info = null!;
             return false;
         }
 
@@ -30,31 +33,10 @@ public static class EditorInfoProvider
             RoslynLocation = roslynPath,
             ContentLocation = contentPath,
             RuntimeLocation = runtimePath,
-            Version = Path.GetFileName(lookupPath),
             IsPatched = Backup.IsBackupExist(contentPath),
             SourceGeneratorLocations = sourceGeneratorLocations
         };
 
         return true;
-    }
-
-    private static string GetContentPath(string lookupPath)
-    {
-        if (IsOSPlatform(OSPlatform.OSX))
-        {
-            return Path.Combine(lookupPath, "Unity.app", "Contents");
-        }
-
-        if (IsOSPlatform(OSPlatform.Linux) || IsOSPlatform(OSPlatform.Windows))
-        {
-            return Path.Combine(lookupPath, "Editor", "Data");
-        }
-
-        return lookupPath;
-    }
-
-    private static bool IsDirectoriesExists(params string[] paths)
-    {
-        return paths.All(Directory.Exists);
     }
 }
