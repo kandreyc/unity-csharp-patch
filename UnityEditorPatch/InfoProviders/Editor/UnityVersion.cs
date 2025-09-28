@@ -1,5 +1,7 @@
-using System.Text.RegularExpressions;
 using NuGet.Versioning;
+using UnityEditorPatch.Utilities;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace UnityEditorPatch.InfoProviders.Editor;
 
@@ -14,8 +16,9 @@ public partial class UnityVersion
 {
     private static readonly Regex VersionRegex = new(@"^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)(?<type>[abf])(?<build>\d+)$");
 
-    public static bool TryParse(string version, out UnityVersion semanticVersion)
+    public static bool TryGet(string editorPath, OSPlatform platform, out UnityVersion semanticVersion)
     {
+        var version = ReadVersion(editorPath, platform);
         var match = VersionRegex.Match(version);
 
         if (!match.Success)
@@ -31,5 +34,28 @@ public partial class UnityVersion
         );
 
         return true;
+    }
+
+    private static string ReadVersion(string editorPath, OSPlatform platform)
+    {
+        if (platform == OSPlatform.OSX)
+        {
+            var executable = Path.Combine(editorPath, "Unity.app", "Contents", "MacOS", "Unity");
+            return ProcessUtility.ReadOutputFrom(command: executable, withArgument: "-version");
+        }
+
+        if (platform == OSPlatform.Linux)
+        {
+            var executable = Path.Combine(editorPath, "Editor", "Unity");
+            return ProcessUtility.ReadOutputFrom(command: executable, withArgument: "-version");
+        }
+
+        if (platform == OSPlatform.Windows)
+        {
+            var executable = Path.Combine(editorPath, "Editor", "Unity.exe");
+            return ProcessUtility.ReadOutputFrom(command: executable, withArgument: "-version");
+        }
+
+        return string.Empty;
     }
 }

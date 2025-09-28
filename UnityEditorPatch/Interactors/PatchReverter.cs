@@ -1,5 +1,5 @@
-using UnityEditorPatch.InfoProviders.Editor;
 using UnityEditorPatch.Utilities;
+using UnityEditorPatch.InfoProviders.Editor;
 
 namespace UnityEditorPatch.Interactors;
 
@@ -7,15 +7,17 @@ public static class PatchReverter
 {
     public static Result Perform(string editorPath)
     {
-        if (!UnityVersion.TryParse(Path.GetFileName(editorPath), out var version))
-        {
-            return Result.Error("Failed to parse editor version.");
-        }
-
         if (!OperatingSystemUtility.TryGetOSPlatform(out var platform))
         {
             return Result.Error("Platform is not supported.");
         }
+
+        if (!UnityVersion.TryGet(editorPath, platform, out var version))
+        {
+            return Result.Error("Failed to parse editor version.");
+        }
+
+        Console.WriteLine($"Editor: {version}");
 
         if (!EditorVersionVerifier.IsSupported(version))
         {
@@ -26,8 +28,6 @@ public static class PatchReverter
         {
             return Result.Error("Failed to get unity editor info.");
         }
-
-        Console.WriteLine($"Editor: {version}");
 
         if (!editorInfo.IsPatched)
         {

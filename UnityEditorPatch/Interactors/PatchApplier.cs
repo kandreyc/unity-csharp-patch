@@ -8,15 +8,17 @@ public static class PatchApplier
 {
     public static Result Perform(string editorPath, bool allowPrerelease)
     {
-        if (!UnityVersion.TryParse(Path.GetFileName(editorPath), out var version))
-        {
-            return Result.Error("Failed to parse editor version.");
-        }
-
         if (!OperatingSystemUtility.TryGetOSPlatform(out var platform))
         {
             return Result.Error("Platform is not supported.");
         }
+
+        if (!UnityVersion.TryGet(editorPath, platform, out var version))
+        {
+            return Result.Error("Failed to parse editor version.");
+        }
+
+        Console.WriteLine($"Editor: {version}");
 
         if (!EditorVersionVerifier.IsSupported(version))
         {
@@ -32,8 +34,6 @@ public static class PatchApplier
         {
             return Result.Error("Failed to get unity editor info.");
         }
-
-        Console.WriteLine($"Editor: {version}");
 
         if (editorInfo.IsPatched)
         {
