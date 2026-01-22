@@ -12,6 +12,7 @@ namespace UnityCSharpPatch.Editor.Csc
             { "11", "11"},
             { "12", "12"},
             { "13", "13"},
+            { "14", "14" },
             { "preview", "preview"}
         };
 
