@@ -78,11 +78,6 @@ where:
 Language Support
 ----------------
 
-> [!NOTE]
-> C# 14 features support of .net 10 in `Rider` / `Visual Studio` is still in development.
-> Code will compile and work, but you may suffer from errors in IDE.
-> Currently only `VSCode` supports all new features
-
 C# | Feature | Support
 -|-|:-----:
 14 | [`field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#the-field-keyword) | Yes
