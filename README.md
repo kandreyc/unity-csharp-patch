@@ -69,7 +69,7 @@ where ``--editor`` - path to the unity editor
 ```
 where:
 
-- ``langVersion`` (optional) - C# version you want to be used for this ``.asmdef``. Values are ``10``, ``11``, ``12``, ``13``, ``preview``
+- ``langVersion`` (optional) - C# version you want to be used for this ``.asmdef``. Values are ``10``, ``11``, ``12``, ``13``, ``14``
 - ``nullable`` (optional) - allows to use nullables like ``string?`` without defining ``#nullable enable/disable`` in each file where it used. Values are ``enable``, ``disable``
 
 7. Refresh the Editor. All required magic should be done here.
@@ -78,20 +78,15 @@ where:
 Language Support
 ----------------
 
-> [!NOTE]
-> `preview` features support of .net 10 in `Rider` / `Visual Studio` is still in development.
-> Code will compile and work, but you may suffer from errors in IDE.
-> Currently only `VSCode` supports all new features
-
 C# | Feature | Support
 -|-|:-----:
-preview | [`field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#the-field-keyword) | Yes
-preview | [`partial` events and instance constructors](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#more-partial-members) | Yes
-preview | [`nameof` unbound generic types support for](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#unbound-generic-types-and-nameof) | Yes
-preview | [Extension members](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#extension-members) | Yes
-preview | [Null conditional assignment](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#null-conditional-assignment) | Yes
-preview | [Simple lambda parameters](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#simple-lambda-parameters-with-modifiers) | Yes
-preview | [Implicit span conversions](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#implicit-span-conversions) | Yes
+14 | [`field` keyword](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#the-field-keyword) | Yes
+14 | [`partial` events and instance constructors](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#more-partial-members) | Yes
+14 | [`nameof` unbound generic types support for](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#unbound-generic-types-and-nameof) | Yes
+14 | [Extension members](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#extension-members) | Yes
+14 | [Null conditional assignment](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#null-conditional-assignment) | Yes
+14 | [Simple lambda parameters](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#simple-lambda-parameters-with-modifiers) | Yes
+14 | [Implicit span conversions](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#implicit-span-conversions) | Yes
 13 | [`params` collections](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#params-collections) | Yes
 13 | [New lock type and semantics](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-lock-object) | No
 13 | [New escape sequence - \\e](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-13#new-escape-sequence) | Yes
