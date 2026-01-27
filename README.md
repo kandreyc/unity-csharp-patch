@@ -23,28 +23,22 @@ Supported AssemblyDefinition locations:
 > **DON'T** put `.asmdef` with its `csc.rsp` at the root of the project (`Assets/`).
 > Unity in that case will apply the specified C# version to everything, that may cause compile errors (e.g. `field` keyword is used as a name in some third party library).
 > Place it in any subfolder (usually Scripts, but doesn't matter, just not at the root)
+> 
+> Opening the editor in `safe mode` will not apply the patch, so you may see a lot of errors in IDE only. It will be applied when you will exit the safe mode, so when all compile errors from editor console are fixed. 
 
 
 > [!NOTE]
-> OS support: Mac / Linux / Windows.
+> Editor OS support: Mac / Linux / Windows.
+> Target OS support: Mac / Windows / Linux / iOS / Android / WebGL
+> IDE support: Rider / VSCode / Visual Studio
+> 
 > You can backup your editor just in case, but should be fine.
->
 > Patch will modify the Editor installation, so all the projects that are using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
->
-> Tested on target platforms: Mac / Windows / Linux / iOS / Android / WebGL
->
-> Tested in IDEs:
-> 
-> `Rider 2025.1` with integration package `com.unity.ide.rider@3.0.36`
-> 
-> `VSCode 1.99.3` with integration package `com.unity.ide.visualstudio@2.0.23`
->
-> `Visual Studio Community 2022 17.13.6` with integration package `com.unity.ide.visualstudio@2.0.23`
 
 How to Install:
 ---------------
 
-1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.5.0``
+1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.6.0`` or download latest package from [releases](https://github.com/kandreyc/unity-csharp-patch/releases)
 2. Ensure Unity Editor is closed.
 3. Ensure latest dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
 4. Open terminal at folder ``EditorPatch~`` inside the added package.
@@ -64,7 +58,7 @@ where ``--editor`` - path to the unity editor
 
 6. Open the Unity Editor with your project and create a `csc.rsp` file alongside desired `.asmdef` with the following content:
 ```
--langVersion:13
+-langVersion:14
 -nullable:enable
 ```
 where:
