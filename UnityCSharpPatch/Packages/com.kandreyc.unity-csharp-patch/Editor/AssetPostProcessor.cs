@@ -19,6 +19,18 @@ namespace UnityCSharpPatch.Editor
             AssetDatabase.Refresh();
         }
 
+        [InitializeOnLoadMethod]
+        public static void TriggerRefreshOnSafeModeExit()
+        {
+            const string isPatched = "__is_csproj_patched";
+
+            if (!SessionState.GetBool(isPatched, false))
+            {
+                SessionState.SetBool(isPatched, true);
+                SolutionUtility.RegenerateProjects();
+            }
+        }
+
         private static bool IsCsc(string asset)
         {
             return Path.GetFileName(asset) is "csc.rsp";

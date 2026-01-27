@@ -13,6 +13,12 @@ How it works:
 
 3. **Project File Adjustment**: Finally, `UnityPackage` modifies the `.csproj` file to reflect the C# version specified in the `csc.rsp`. This alerts your IDE to the correct language version to use, ensuring it can provide you with all the relevant language features.
 
+Platform Support:
+--------
+1. Editor OS support: Mac / Linux / Windows.
+2. Target OS support: Mac / Windows / Linux / iOS / Android / WebGL.
+3. IDE support: Rider / VSCode / Visual Studio.
+
 Supported AssemblyDefinition locations:
 --------
 1. Project - everything that is located in `Assets/` folder of your project.
@@ -20,55 +26,55 @@ Supported AssemblyDefinition locations:
 3. Local Packages - everything that is located anywhere on your pc with specified path with `file:` prefix in manifest.
 
 > [!WARNING]
+> Patch will modify the Editor installation, so all the projects that are using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
+> 
 > **DON'T** put `.asmdef` with its `csc.rsp` at the root of the project (`Assets/`).
 > Unity in that case will apply the specified C# version to everything, that may cause compile errors (e.g. `field` keyword is used as a name in some third party library).
 > Place it in any subfolder (usually Scripts, but doesn't matter, just not at the root)
-
-
-> [!NOTE]
-> OS support: Mac / Linux / Windows.
-> You can backup your editor just in case, but should be fine.
->
-> Patch will modify the Editor installation, so all the projects that are using it will be affected (default for unity C# version will be used for compilation, but from newer (patched) dotnet sdk)
->
-> Tested on target platforms: Mac / Windows / Linux / iOS / Android / WebGL
->
-> Tested in IDEs:
 > 
-> `Rider 2025.1` with integration package `com.unity.ide.rider@3.0.36`
-> 
-> `VSCode 1.99.3` with integration package `com.unity.ide.visualstudio@2.0.23`
->
-> `Visual Studio Community 2022 17.13.6` with integration package `com.unity.ide.visualstudio@2.0.23`
+> Opening the editor in `safe mode` will not apply the patch, so you may see a lot of errors in IDE only. It will be applied when you will exit the safe mode, so when all compile errors from editor console are fixed.
 
 How to Install:
 ---------------
 
-1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.5.0``
+1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.6.0`` or download latest package from [releases](https://github.com/kandreyc/unity-csharp-patch/releases)
 2. Ensure Unity Editor is closed.
 3. Ensure latest dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
 4. Open terminal at folder ``EditorPatch~`` inside the added package.
 5. Patch the editor (administrative privileges are required):
+
+Mac / Linux:
 ```
 $ dotnet UnityEditorPatch.dll apply --editor '/Applications/Unity/Hub/Editor/2022.3.21f1' --allow-prerelease
 ```
-where ``--editor`` - path to the unity editor
-
-where ``--allow-prerelease`` - (optional) allows to use prerelease dotnet sdk
+Windows:
+```
+$ dotnet UnityEditorPatch.dll apply --editor "C:/Program Files/Unity/Hub/Editor/2022.3.21f1" --allow-prerelease
+```
+&nbsp;&nbsp;&nbsp;&nbsp;where:
+- ``--editor`` - path to the unity editor
+- ``--allow-prerelease`` - (optional) allows to use prerelease dotnet sdk
 
 In case if you want to revert the patch:
+
+Mac / Linux:
 ```
 $ dotnet UnityEditorPatch.dll revert --editor '/Applications/Unity/Hub/Editor/2022.3.21f1'
 ```
-where ``--editor`` - path to the unity editor
+Windows:
+```
+$ dotnet UnityEditorPatch.dll revert --editor "C:/Program Files/Unity/Hub/Editor/2022.3.21f1"
+```
+
+&nbsp;&nbsp;&nbsp;&nbsp;where:
+- ``--editor`` - path to the unity editor
 
 6. Open the Unity Editor with your project and create a `csc.rsp` file alongside desired `.asmdef` with the following content:
 ```
--langVersion:13
+-langVersion:14
 -nullable:enable
 ```
-where:
-
+&nbsp;&nbsp;&nbsp;&nbsp;where:
 - ``langVersion`` (optional) - C# version you want to be used for this ``.asmdef``. Values are ``10``, ``11``, ``12``, ``13``, ``14``
 - ``nullable`` (optional) - allows to use nullables like ``string?`` without defining ``#nullable enable/disable`` in each file where it used. Values are ``enable``, ``disable``
 
