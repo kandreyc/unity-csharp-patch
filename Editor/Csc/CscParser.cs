@@ -6,15 +6,6 @@ namespace UnityCSharpPatch.Editor.Csc
 {
     public static class CscParser
     {
-        private static readonly Dictionary<string, string> LangVersions = new()
-        {
-            { "10", "10"},
-            { "11", "11"},
-            { "12", "12"},
-            { "13", "13"},
-            { "preview", "preview"}
-        };
-
         public static bool TryParse(string csc, out Dictionary<string, string> info)
         {
             if (!File.Exists(csc))
@@ -37,9 +28,9 @@ namespace UnityCSharpPatch.Editor.Csc
 
                 switch (name)
                 {
-                    case "-langVersion" when LangVersions.TryGetValue(key: value, out var version):
+                    case "-langVersion":
                     {
-                        info.TryAdd("langVersion", version);
+                        info.TryAdd("langVersion", value);
                         break;
                     }
                     case "-nullable" when value is "enable" or "disable":
