@@ -37,7 +37,7 @@ Supported AssemblyDefinition locations:
 How to Install:
 ---------------
 
-1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.6.0`` or download latest package from [releases](https://github.com/kandreyc/unity-csharp-patch/releases)
+1. Add the package via git url ``https://github.com/kandreyc/unity-csharp-patch.git#v1.6.0`` or download latest package from [releases](https://github.com/kandreyc/unity-csharp-patch/tags)
 2. Ensure Unity Editor is closed.
 3. Ensure latest dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
 4. Open terminal at folder ``EditorPatch~`` inside the added package.
