@@ -41,9 +41,9 @@ How to Install:
 2. Ensure Unity Editor is closed.
 3. Ensure latest dotnet sdk is installed. [Download Page](https://dotnet.microsoft.com/en-us/download)
 4. Open terminal at folder ``EditorPatch~`` inside the added package.
-5. Patch the editor (administrative privileges are required):
+5. Patch the editor (administrative privileges may be required):
 
-Mac / Linux:
+Mac:
 ```
 $ dotnet UnityEditorPatch.dll apply --editor '/Applications/Unity/Hub/Editor/2022.3.21f1' --allow-prerelease
 ```
@@ -51,19 +51,27 @@ Windows:
 ```
 $ dotnet UnityEditorPatch.dll apply --editor "C:/Program Files/Unity/Hub/Editor/2022.3.21f1" --allow-prerelease
 ```
+Linux:
+```
+$ dotnet UnityEditorPatch.dll apply --editor ~/Unity/Hub/Editor/2022.3.21f1 --allow-prerelease
+```
 &nbsp;&nbsp;&nbsp;&nbsp;where:
 - ``--editor`` - path to the unity editor
 - ``--allow-prerelease`` - (optional) allows to use prerelease dotnet sdk
 
 In case if you want to revert the patch:
 
-Mac / Linux:
+Mac:
 ```
 $ dotnet UnityEditorPatch.dll revert --editor '/Applications/Unity/Hub/Editor/2022.3.21f1'
 ```
 Windows:
 ```
 $ dotnet UnityEditorPatch.dll revert --editor "C:/Program Files/Unity/Hub/Editor/2022.3.21f1"
+```
+Linux:
+```
+$ dotnet UnityEditorPatch.dll revert --editor ~/Unity/Hub/Editor/2022.3.21f1
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;where:
