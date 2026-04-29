@@ -16,7 +16,7 @@ public static class EditorInfoProvider
 
         var contentPath = UnityLocationUtility.GetContentPath(lookupPath);
         var runtimePath = Path.Combine(contentPath, pathSpecification.RuntimePath);
-        var roslynPath = Path.Combine(contentPath, pathSpecification.RoslynLocation);
+        var roslynPath = ResolveRoslynPath(contentPath, pathSpecification.RoslynLocation);
         var sourceGeneratorLocations = pathSpecification.SourceGeneratorLocations
             .Select(location => Path.Combine(contentPath, location))
             .Where(File.Exists).ToArray();
@@ -38,5 +38,28 @@ public static class EditorInfoProvider
         };
 
         return true;
+    }
+
+    static string ResolveRoslynPath(string contentPath, string preferredRelativePath)
+    {
+        var preferredPath = Path.Combine(contentPath, preferredRelativePath);
+        if (Directory.Exists(preferredPath))
+        {
+            return preferredPath;
+        }
+
+        var dotNetSdkPath = Path.Combine(contentPath, "DotNetSdk", "sdk");
+        if (!Directory.Exists(dotNetSdkPath))
+        {
+            return preferredPath;
+        }
+
+        var roslynCandidates = Directory.GetDirectories(dotNetSdkPath)
+            .Select(versionPath => Path.Combine(versionPath, "Roslyn", "bincore"))
+            .Where(Directory.Exists)
+            .OrderBy(path => path, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        return roslynCandidates.LastOrDefault() ?? preferredPath;
     }
 }
