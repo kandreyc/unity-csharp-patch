@@ -16,7 +16,9 @@ public static class EditorInfoProvider
 
         var contentPath = UnityLocationUtility.GetContentPath(lookupPath);
         var runtimePath = Path.Combine(contentPath, pathSpecification.RuntimePath);
-        var roslynPath = Path.Combine(contentPath, pathSpecification.RoslynLocation);
+        var roslynPath = ResolveRoslynPath(contentPath, pathSpecification.RoslynLocation);
+        var dotNetSdkHostPath = ResolveDotNetSdkSubdirectory(contentPath, roslynPath, "host");
+        var dotNetSdkSharedPath = ResolveDotNetSdkSubdirectory(contentPath, roslynPath, "shared");
         var sourceGeneratorLocations = pathSpecification.SourceGeneratorLocations
             .Select(location => Path.Combine(contentPath, location))
             .Where(File.Exists).ToArray();
@@ -33,10 +35,47 @@ public static class EditorInfoProvider
             RoslynLocation = roslynPath,
             ContentLocation = contentPath,
             RuntimeLocation = runtimePath,
+            DotNetSdkHostLocation = dotNetSdkHostPath,
+            DotNetSdkSharedLocation = dotNetSdkSharedPath,
             IsPatched = Backup.IsBackupExist(contentPath),
             SourceGeneratorLocations = sourceGeneratorLocations
         };
 
         return true;
+    }
+
+    static string ResolveRoslynPath(string contentPath, string preferredRelativePath)
+    {
+        var preferredPath = Path.Combine(contentPath, preferredRelativePath);
+        if (Directory.Exists(preferredPath))
+        {
+            return preferredPath;
+        }
+
+        var dotNetSdkPath = Path.Combine(contentPath, "DotNetSdk", "sdk");
+        if (!Directory.Exists(dotNetSdkPath))
+        {
+            return preferredPath;
+        }
+
+        var roslynCandidates = Directory.GetDirectories(dotNetSdkPath)
+            .Select(versionPath => Path.Combine(versionPath, "Roslyn", "bincore"))
+            .Where(Directory.Exists)
+            .OrderBy(path => path, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        return roslynCandidates.LastOrDefault() ?? preferredPath;
+    }
+
+    private static string? ResolveDotNetSdkSubdirectory(string contentPath, string roslynPath, string subdirectory)
+    {
+        var dotNetSdkPath = Path.Combine(contentPath, "DotNetSdk");
+        if (!roslynPath.StartsWith(dotNetSdkPath, StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var path = Path.Combine(dotNetSdkPath, subdirectory);
+        return Directory.Exists(path) ? path : null;
     }
 }
