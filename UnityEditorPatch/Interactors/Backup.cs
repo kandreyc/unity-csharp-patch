@@ -26,6 +26,8 @@ public static class Backup
             Directory.CreateDirectory(backupPath);
             FileSystemUtility.CopyDirectory(info.RoslynLocation, BackupLocation(backupPath, info.RoslynLocation, relativeTo: info.ContentLocation));
             FileSystemUtility.CopyDirectory(info.RuntimeLocation, BackupLocation(backupPath, info.RuntimeLocation, relativeTo: info.ContentLocation));
+            BackupDirectoryIfExists(info.DotNetSdkHostLocation, backupPath, info.ContentLocation);
+            BackupDirectoryIfExists(info.DotNetSdkSharedLocation, backupPath, info.ContentLocation);
 
             foreach (var sourceGeneratorLocation in info.SourceGeneratorLocations)
             {
@@ -53,6 +55,8 @@ public static class Backup
 
             FileSystemUtility.ReplaceDirectory(info.RoslynLocation, with: BackupLocation(backupPath, info.RoslynLocation, relativeTo: info.ContentLocation));
             FileSystemUtility.ReplaceDirectory(info.RuntimeLocation, with: BackupLocation(backupPath, info.RuntimeLocation, relativeTo: info.ContentLocation));
+            RestoreDirectoryIfExists(info.DotNetSdkHostLocation, backupPath, info.ContentLocation);
+            RestoreDirectoryIfExists(info.DotNetSdkSharedLocation, backupPath, info.ContentLocation);
 
             foreach (var sourceGeneratorLocation in info.SourceGeneratorLocations)
             {
@@ -73,5 +77,25 @@ public static class Backup
     {
         var relativeLocation = Path.GetRelativePath(relativeTo, location);
         return Path.Combine(backupLocation, relativeLocation);
+    }
+
+    private static void BackupDirectoryIfExists(string? directory, string backupPath, string contentLocation)
+    {
+        if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+        {
+            return;
+        }
+
+        FileSystemUtility.CopyDirectory(directory, BackupLocation(backupPath, directory, relativeTo: contentLocation));
+    }
+
+    private static void RestoreDirectoryIfExists(string? directory, string backupPath, string contentLocation)
+    {
+        if (string.IsNullOrEmpty(directory))
+        {
+            return;
+        }
+
+        FileSystemUtility.ReplaceDirectory(directory, with: BackupLocation(backupPath, directory, relativeTo: contentLocation));
     }
 }
