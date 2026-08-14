@@ -1,6 +1,6 @@
 using UnityEditorPatch.InfoProviders.Editor;
 using UnityEditorPatch.InfoProviders.Sdk;
-using UnityEditorPatch.Utilities;
+using static UnityEditorPatch.Utilities.FileSystemUtility;
 
 namespace UnityEditorPatch.Interactors;
 
@@ -10,8 +10,11 @@ public class DotNetPatch
     {
         try
         {
-            FileSystemUtility.ReplaceDirectory(editorInfo.RuntimeLocation, with: sdkInfo.Location);
-            FileSystemUtility.ReplaceDirectory(editorInfo.RoslynLocation, with: sdkInfo.RoslynLocation);
+            ReplaceDirectory(editorInfo.RuntimeLocation, with: sdkInfo.Location);
+            ReplaceDirectory(editorInfo.RoslynLocation, with: sdkInfo.RoslynLocation);
+
+            ReplaceDirectory(editorInfo.DotNetSdkHostLocation, with: sdkInfo.HostLocation);
+            ReplaceDirectory(editorInfo.DotNetSdkSharedLocation, with: sdkInfo.SharedLocation);
         }
         catch (Exception)
         {

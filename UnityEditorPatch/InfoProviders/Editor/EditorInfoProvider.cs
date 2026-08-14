@@ -17,11 +17,16 @@ public static class EditorInfoProvider
         var contentPath = UnityLocationUtility.GetContentPath(lookupPath);
         var runtimePath = Path.Combine(contentPath, pathSpecification.RuntimePath);
         var roslynPath = Path.Combine(contentPath, pathSpecification.RoslynLocation);
+        var dotNetSdkHostPath = CombineOptional(contentPath, pathSpecification.DotNetSdkHostLocation);
+        var dotNetSdkSharedPath = CombineOptional(contentPath, pathSpecification.DotNetSdkSharedLocation);
         var sourceGeneratorLocations = pathSpecification.SourceGeneratorLocations
             .Select(location => Path.Combine(contentPath, location))
             .Where(File.Exists).ToArray();
 
-        if (!FileSystemUtility.IsDirectoriesExists(contentPath, runtimePath, roslynPath) || sourceGeneratorLocations.Length is 0)
+        var requiredLocations = new[] { contentPath, runtimePath, roslynPath, dotNetSdkHostPath, dotNetSdkSharedPath }
+            .OfType<string>().ToArray();
+
+        if (!FileSystemUtility.IsDirectoriesExists(requiredLocations) || sourceGeneratorLocations.Length is 0)
         {
             info = null!;
             return false;
@@ -33,10 +38,17 @@ public static class EditorInfoProvider
             RoslynLocation = roslynPath,
             ContentLocation = contentPath,
             RuntimeLocation = runtimePath,
+            DotNetSdkHostLocation = dotNetSdkHostPath,
+            DotNetSdkSharedLocation = dotNetSdkSharedPath,
             IsPatched = Backup.IsBackupExist(contentPath),
             SourceGeneratorLocations = sourceGeneratorLocations
         };
 
         return true;
+    }
+
+    private static string? CombineOptional(string contentPath, string? relativeLocation)
+    {
+        return relativeLocation is null ? null : Path.Combine(contentPath, relativeLocation);
     }
 }

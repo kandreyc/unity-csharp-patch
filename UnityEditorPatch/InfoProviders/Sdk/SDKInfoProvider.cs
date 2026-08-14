@@ -69,6 +69,8 @@ public static partial class SDKInfoProvider
                 SDKLocation = sdkLocation,
                 Location = dotnetLocation,
                 RoslynLocation = roslynLocation,
+                HostLocation = Path.Combine(dotnetLocation, "host"),
+                SharedLocation = Path.Combine(dotnetLocation, "shared"),
                 LatestCSharpVersion = GetLatestCSharpVersion(roslynLocation)
             };
         }

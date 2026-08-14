@@ -6,6 +6,12 @@ public class PathSpecification
 {
     public string RuntimePath { get; init; }
     public string RoslynLocation { get; init; }
+
+    // Set only for editors that run roslyn out of a dotnet sdk bundled with the editor,
+    // because that sdk brings its own runtime that has to be patched alongside RuntimePath.
+    public string? DotNetSdkHostLocation { get; init; }
+    public string? DotNetSdkSharedLocation { get; init; }
+
     public string[] SourceGeneratorLocations { get; init; }
 }
 

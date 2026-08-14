@@ -24,8 +24,11 @@ public static class Backup
             var backupPath = Path.Combine(info.ContentLocation, BackupDirectory);
 
             Directory.CreateDirectory(backupPath);
-            FileSystemUtility.CopyDirectory(info.RoslynLocation, BackupLocation(backupPath, info.RoslynLocation, relativeTo: info.ContentLocation));
-            FileSystemUtility.CopyDirectory(info.RuntimeLocation, BackupLocation(backupPath, info.RuntimeLocation, relativeTo: info.ContentLocation));
+
+            foreach (var patchedLocation in PatchedLocations(info))
+            {
+                FileSystemUtility.CopyDirectory(patchedLocation, BackupLocation(backupPath, patchedLocation, relativeTo: info.ContentLocation));
+            }
 
             foreach (var sourceGeneratorLocation in info.SourceGeneratorLocations)
             {
@@ -51,8 +54,10 @@ public static class Backup
 
             var backupPath = Path.Combine(info.ContentLocation, BackupDirectory);
 
-            FileSystemUtility.ReplaceDirectory(info.RoslynLocation, with: BackupLocation(backupPath, info.RoslynLocation, relativeTo: info.ContentLocation));
-            FileSystemUtility.ReplaceDirectory(info.RuntimeLocation, with: BackupLocation(backupPath, info.RuntimeLocation, relativeTo: info.ContentLocation));
+            foreach (var patchedLocation in PatchedLocations(info))
+            {
+                FileSystemUtility.ReplaceDirectory(patchedLocation, with: BackupLocation(backupPath, patchedLocation, relativeTo: info.ContentLocation));
+            }
 
             foreach (var sourceGeneratorLocation in info.SourceGeneratorLocations)
             {
@@ -67,6 +72,15 @@ public static class Backup
         }
 
         return true;
+    }
+
+    private static IEnumerable<string> PatchedLocations(EditorInfo info)
+    {
+        yield return info.RoslynLocation;
+        yield return info.RuntimeLocation;
+
+        if (info.DotNetSdkHostLocation is not null) yield return info.DotNetSdkHostLocation;
+        if (info.DotNetSdkSharedLocation is not null) yield return info.DotNetSdkSharedLocation;
     }
 
     private static string BackupLocation(string backupLocation, string location, string relativeTo)
