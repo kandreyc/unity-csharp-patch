@@ -9,8 +9,6 @@ public class EditorInfo
     public string ContentLocation { get; init; }
     public string RuntimeLocation { get; init; }
     public string RoslynLocation { get; init; }
-    public string? DotNetSdkHostLocation { get; init; }
-    public string? DotNetSdkSharedLocation { get; init; }
     public string[] SourceGeneratorLocations { get; init; }
 }
 

@@ -12,8 +12,6 @@ public class DotNetPatch
         {
             FileSystemUtility.ReplaceDirectory(editorInfo.RuntimeLocation, with: sdkInfo.Location);
             FileSystemUtility.ReplaceDirectory(editorInfo.RoslynLocation, with: sdkInfo.RoslynLocation);
-            CopyDotNetSdkRuntimeSupport(editorInfo.DotNetSdkHostLocation, sdkInfo.Location, "host");
-            CopyDotNetSdkRuntimeSupport(editorInfo.DotNetSdkSharedLocation, sdkInfo.Location, "shared");
         }
         catch (Exception)
         {
@@ -21,21 +19,5 @@ public class DotNetPatch
         }
 
         return true;
-    }
-
-    private static void CopyDotNetSdkRuntimeSupport(string? targetDirectory, string sdkRoot, string subdirectory)
-    {
-        if (string.IsNullOrEmpty(targetDirectory))
-        {
-            return;
-        }
-
-        var sourceDirectory = Path.Combine(sdkRoot, subdirectory);
-        if (!Directory.Exists(sourceDirectory))
-        {
-            return;
-        }
-
-        FileSystemUtility.CopyDirectory(sourceDirectory, targetDirectory);
     }
 }
