@@ -10,6 +10,8 @@ public class SDKInfo
     public string SDKLocation { get; init; }
 
     public string RoslynLocation { get; init; }
+    public string HostLocation { get; init; }
+    public string SharedLocation { get; init; }
     public NuGetVersion Version { get; init; }
     public string LatestCSharpVersion { get; init; }
 }

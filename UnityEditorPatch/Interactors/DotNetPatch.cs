@@ -1,6 +1,6 @@
 using UnityEditorPatch.InfoProviders.Editor;
 using UnityEditorPatch.InfoProviders.Sdk;
-using UnityEditorPatch.Utilities;
+using static UnityEditorPatch.Utilities.FileSystemUtility;
 
 namespace UnityEditorPatch.Interactors;
 
@@ -10,10 +10,11 @@ public class DotNetPatch
     {
         try
         {
-            FileSystemUtility.ReplaceDirectory(editorInfo.RuntimeLocation, with: sdkInfo.Location);
-            FileSystemUtility.ReplaceDirectory(editorInfo.RoslynLocation, with: sdkInfo.RoslynLocation);
-            CopyDotNetSdkRuntimeSupport(editorInfo.DotNetSdkHostLocation, sdkInfo.Location, "host");
-            CopyDotNetSdkRuntimeSupport(editorInfo.DotNetSdkSharedLocation, sdkInfo.Location, "shared");
+            ReplaceDirectory(editorInfo.RuntimeLocation, with: sdkInfo.Location);
+            ReplaceDirectory(editorInfo.RoslynLocation, with: sdkInfo.RoslynLocation);
+
+            ReplaceDirectory(editorInfo.DotNetSdkHostLocation, with: sdkInfo.HostLocation);
+            ReplaceDirectory(editorInfo.DotNetSdkSharedLocation, with: sdkInfo.SharedLocation);
         }
         catch (Exception)
         {
@@ -21,21 +22,5 @@ public class DotNetPatch
         }
 
         return true;
-    }
-
-    private static void CopyDotNetSdkRuntimeSupport(string? targetDirectory, string sdkRoot, string subdirectory)
-    {
-        if (string.IsNullOrEmpty(targetDirectory))
-        {
-            return;
-        }
-
-        var sourceDirectory = Path.Combine(sdkRoot, subdirectory);
-        if (!Directory.Exists(sourceDirectory))
-        {
-            return;
-        }
-
-        FileSystemUtility.CopyDirectory(sourceDirectory, targetDirectory);
     }
 }

@@ -23,9 +23,9 @@ public static class FileSystemUtility
         }
     }
 
-    public static void ReplaceDirectory(string directory, string with)
+    public static void ReplaceDirectory(string? directory, string with)
     {
-        if (!Directory.Exists(with)) return;
+        if (string.IsNullOrEmpty(directory) || !Directory.Exists(with)) return;
 
         Console.WriteLine($"Replacing directory '{directory}' -> '{with}'");
         Directory.Delete(directory, recursive: true);

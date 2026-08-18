@@ -9,8 +9,11 @@ public class EditorInfo
     public string ContentLocation { get; init; }
     public string RuntimeLocation { get; init; }
     public string RoslynLocation { get; init; }
+
+    // Null for editors that do not bundle a dotnet sdk of their own.
     public string? DotNetSdkHostLocation { get; init; }
     public string? DotNetSdkSharedLocation { get; init; }
+
     public string[] SourceGeneratorLocations { get; init; }
 }
 
